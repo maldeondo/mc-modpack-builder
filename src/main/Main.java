@@ -8,5 +8,8 @@ public class Main {
         modpack.addMod(m2);
 
         modpack.printModpack();
+
+        modpack.removeMod(0);
+        modpack.printModpack();
     }
 }
