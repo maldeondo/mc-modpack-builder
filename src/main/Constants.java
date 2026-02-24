@@ -27,6 +27,10 @@ public class Constants {
         };
     }
 
-    // Name -- Version -- Type
-    public static final String TABLE_FORMAT = "%-3s%-15s%-10s%-5s%-2s\n";
+    // Index -- Name -- Version -- Type -- Status
+    public static final String TABLE_FORMAT = "%-3s| %-15s | %-10s | %-4s | %-6s |\n";
+    public static final String TABLE_FORMAT_1 = "%-3s| %-";
+    public static final String TABLE_FORMAT_2 = "s | %-10s | %-4s | %-6s |\n";
+
+    public static final String TABLE_SEPARATOR = "---|-----------------|------------|------|--------|\n";
 }
