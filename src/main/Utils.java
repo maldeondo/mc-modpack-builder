@@ -1,4 +1,4 @@
-public class Constants {
+public class Utils {
     public static final int CLIENT_MOD = 0;
     public static final int SERVER_MOD = 1;
     public static final int CLIENT_AND_SERVER_MOD = 2;
@@ -21,10 +21,14 @@ public class Constants {
         return switch (status) {
             case 0 -> "";
             case 1 -> "A";
-            case 2 -> "P";
+            case 2 -> "A+P";
             case 3 -> "C";
             default -> throw new Exception("UNKNOWN_STATUS");
         };
+    }
+
+    public static final String repeat(int amount, String text) {
+        return new String(new char[amount]).replace("\0", text);
     }
 
     // Index -- Name -- Version -- Type -- Status
@@ -33,4 +37,8 @@ public class Constants {
     public static final String TABLE_FORMAT_2 = "s | %-10s | %-4s | %-6s |\n";
 
     public static final String TABLE_SEPARATOR = "---|-----------------|------------|------|--------|\n";
+
+    public static final String tableSeparator(int max_name) {
+        return "---|" + repeat(max_name + 2, "-") + "|------------|------|--------|\n";
+    }
 }

@@ -10,7 +10,7 @@ public class Modpack {
         this.MAX_MODS = max_mods;
         list = new Mod[MAX_MODS];
 
-        max_format_chars = 10;
+        max_format_chars = 0;
         current_mods = 0;
     }
 
@@ -57,10 +57,13 @@ public class Modpack {
             }
 
             current_mods--;
+            updateAllChars();
         }
     }
 
     private void updateAllChars() {
+        max_format_chars = 0;
+
         for (int i = 0; i < current_mods; i++) {
             updateChars(list[i].getName());
         }
@@ -74,18 +77,20 @@ public class Modpack {
 
 
     public void printModpack() throws Exception {
-        String dynamic_table_format = Constants.TABLE_FORMAT_1 + String.format("%d", max_format_chars) + Constants.TABLE_FORMAT_2;
+        String dynamic_table_format = Utils.TABLE_FORMAT_1 + String.format("%d", max_format_chars) + Utils.TABLE_FORMAT_2;
+        String dynamic_table_separator = Utils.tableSeparator(max_format_chars);
 
         Mod temp;
         StringBuilder block = new StringBuilder();
 
         block.append("\n");
         block.append(String.format(dynamic_table_format, "", "Mod", "Version", "Type", "Status"));
-        block.append(Constants.TABLE_SEPARATOR);
+        block.append(dynamic_table_separator);
 
         for (int i = 0; i < current_mods; i++) {
             temp = getMod(i);
-            block.append(String.format(dynamic_table_format, String.valueOf(i + 1),  temp.getName(), temp.getVersion(), Constants.clientTypeFormat(temp.getModType()), Constants.clientStatusFormat(temp.getModStatus())));
+            System.out.println(Utils.clientStatusFormat(temp.getModStatus()));
+            block.append(String.format(dynamic_table_format, String.valueOf(i + 1),  temp.getName(), temp.getVersion(), Utils.clientTypeFormat(temp.getModType()), Utils.clientStatusFormat(temp.getModStatus())));
         }
 
         System.out.print(block);
