@@ -34,7 +34,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'test.App'
+    mainClass = 'mc.modpack.builder.Main'
 }
 
 tasks.named('test') {

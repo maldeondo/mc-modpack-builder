@@ -1,3 +1,5 @@
+package mc.modpack.builder;
+
 public class Mod {
 
     private String name;

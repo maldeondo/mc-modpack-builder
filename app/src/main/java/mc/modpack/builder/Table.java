@@ -1,3 +1,5 @@
+package mc.modpack.builder;
+
 public class Table {
     private int[] longest_chars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
     

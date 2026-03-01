@@ -1,3 +1,5 @@
+package mc.modpack.builder;
+
 public class Main {
     public static void main(String[] args) throws Exception {
         Mod m1 = new Mod("JEI", "v1", "http", "http", 2, 2);

@@ -1,3 +1,5 @@
+package mc.modpack.builder;
+
 public class Utils {
     public static final int CLIENT_MOD = 0;
     public static final int SERVER_MOD = 1;
