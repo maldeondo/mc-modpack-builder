@@ -2,16 +2,16 @@ public class Modpack {
     private final int MAX_MODS;
     private Mod[] modlist; // mod array
 
-    private int[] longest_chars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
-    
+    private Table table;
     private int current_mods = 0;
 
     public Modpack(int max_mods) {
         this.MAX_MODS = max_mods;
         modlist = new Mod[MAX_MODS];
+        table = new Table();
     }
 
-    public Modpack() { this(64); }
+    public Modpack() { this(128); }
 
     // GETTERS
 
@@ -20,7 +20,7 @@ public class Modpack {
         else return modlist[index];
     }
 
-    public int getModNum() { return current_mods + 1; }
+    public int getModNum() { return current_mods; }
 
     public boolean full() { return current_mods == MAX_MODS; }
 
@@ -39,8 +39,7 @@ public class Modpack {
             modlist[index] = mod;
             current_mods++;
 
-            updateLongest(mod.getName(), Utils.LONGEST_NAME_INDEX, 3);
-            updateLongest(mod.getVersion(), Utils.LONGEST_VERSION_INDEX, 7);
+            table.updateLongest(mod);
         }
     }
 
@@ -55,42 +54,9 @@ public class Modpack {
             }
 
             current_mods--;
-            updateLongestFull();
+            table.updateLongestRemoved(this);
         }
     }
 
-    private void updateLongestFull() {
-        longest_chars[Utils.LONGEST_NAME_INDEX] = 3;
-        longest_chars[Utils.LONGEST_VERSION_INDEX] = 7;
-
-        for (int i = 0; i < current_mods; i++) {
-            updateLongest(modlist[i].getName(), Utils.LONGEST_NAME_INDEX, 3);
-            updateLongest(modlist[i].getVersion(), Utils.LONGEST_VERSION_INDEX, 7);
-        }
-    }
-    private void updateLongest(String data, int field, int minimum) {
-        int chars = data.length();
-
-        if (chars > minimum && chars > longest_chars[field]) longest_chars[field] = chars;
-    }
-
-    public void printModpack() throws Exception {
-        String dynamic_table_format = Utils.tableFormat(longest_chars);
-        
-        String dynamic_table_separator = Utils.tableSeparator(longest_chars);
-
-        Mod temp;
-        StringBuilder block = new StringBuilder();
-
-        block.append("\n");
-        block.append(String.format(dynamic_table_format, "", "Mod", "Version", "Type", "Status"));
-        block.append(dynamic_table_separator);
-
-        for (int i = 0; i < current_mods; i++) {
-            temp = getMod(i);
-            block.append(String.format(dynamic_table_format, String.valueOf(i + 1),  temp.getName(), temp.getVersion(), Utils.clientTypeFormat(temp.getModType()), Utils.clientStatusFormat(temp.getModStatus())));
-        }
-
-        System.out.print(block);
-    }
+    public void printModpack() throws Exception { System.out.print(table.printTable(this)); }
 }

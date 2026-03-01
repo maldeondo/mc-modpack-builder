@@ -18,11 +18,7 @@ public class Mod {
         this.type = type;
         this.status = status;
     }
-
-    public Mod(String name) {
-        this(name, null, null, null, -1, -1);
-    }
-
+    
     // GETTERS
 
     public String getName() { return this.name; }
