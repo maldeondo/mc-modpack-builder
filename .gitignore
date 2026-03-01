@@ -1,1 +1,10 @@
-*.jar
+# Ignore Gradle project-specific cache directory
+.gradle
+app/bin
+app/build
+
+# Ignore Gradle build output directory
+build
+
+# Own
+.vscode/
