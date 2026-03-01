@@ -1,3 +1,5 @@
+package mc.modpack.builder;
+
 public class Modpack {
     private final int MAX_MODS;
     private Mod[] modlist; // mod array
