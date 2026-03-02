@@ -7,7 +7,10 @@ public class Table {
 
     public Table() {}
 
+    // GSON
+
     public int[] getLongestChars() { return longest_chars; }
+    public void setLongestChars(int[] longest_chars) { this.longest_chars = longest_chars; }
 
     public void updateLongestRemoved(Modpack modpack) {
         resetLongestChars();

@@ -22,9 +22,13 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // This dependency is used by the application.
-    implementation libs.guava
+    // REMOVED DUE TO .JAR SIZE
 
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
+    //implementation libs.guava
+
+    // Jackson Library, replaced by GSON
+    //implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
+    
     implementation 'com.google.code.gson:gson:2.10.1'
 }
 
@@ -49,7 +53,7 @@ jar {
 
 application {
     // Define the main class for the application.
-    mainClass = 'mc.modpack.builder.Main'
+    mainClass = 'mc.modpack.builder.Retrieve'
 }
 
 tasks.named('test') {

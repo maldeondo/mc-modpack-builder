@@ -1,21 +1,19 @@
 package mc.modpack.builder;
 
-import java.io.File;
-
 public class Modpack {
     private final int MAX_MODS;
     private int current_mods = 0;
     private Mod[] modlist; // mod array
 
     private String name;
+    private String modpack_file;
     private Table table;
-    private File modpack_file;
     
     public Modpack(String name, int max_mods) {
         this.MAX_MODS = max_mods;
         if (Utils.validString(name)) {
             this.name = name;
-            modpack_file = new File(String.format("%s%s.json", Utils.WORKING_DIR, name));
+            modpack_file = String.format("%s%s.json", Utils.WORKING_DIR, name);
         }
         modlist = new Mod[MAX_MODS];
         table = new Table();
@@ -32,15 +30,19 @@ public class Modpack {
         else return modlist[index];
     }
 
+    // GSON
+
     public String getName() { return name; }
-
-    public File getFile() { return modpack_file; }
-
+    public String getFile() { return modpack_file; }
     public int getModNum() { return current_mods; }
-
     public Mod[] getModList() { return modlist; }
-
     public Table getTable() { return table; }
+
+    public void setName(String name) { this.name = name; }
+    public void setFile(String modpack_file) { this.modpack_file = modpack_file; }
+    public void setModNum(int current_mods) { this.current_mods = current_mods; }
+    public void setModList(Mod[] modlist) { this.modlist = modlist; }
+    public void setTable(Table table) { this.table = table; }
 
     // LOGIC BLOCK
 
