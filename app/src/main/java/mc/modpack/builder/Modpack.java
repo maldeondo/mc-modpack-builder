@@ -34,7 +34,7 @@ public class Modpack {
 
     public String getName() { return name; }
 
-    public File getFilePath() { return modpack_file; }
+    public File getFile() { return modpack_file; }
 
     public int getModNum() { return current_mods; }
 

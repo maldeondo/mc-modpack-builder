@@ -25,7 +25,7 @@ public class Main {
         //File file = new File(Utils.WORKING_DIR + "test.json");
         //if (!file.exists()) file.createNewFile();
 
-        mapper.writeValue(modpack.getFilePath(), modpack);
+        mapper.writeValue(modpack.getFile(), modpack);
 
         modpack.printModpack();
 
