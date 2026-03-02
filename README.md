@@ -17,9 +17,7 @@ It is designed primarily for server administrators who need to:
 
 - Reduce manual errors during modpack preparation
 
-> See the `dev/ROADMAP.md` file to check development status.
-
----
+> See the `docs/` directory to check development status.
 
 ## Getting Started
 
@@ -28,7 +26,7 @@ This is a **CLI-based** tool intended for local execution.
 The easiest way to use it is to download a `.jar` file from the [releases](https://github.com/maldeondo/mc-modpack-builder/releases) page and run it with:
 - `java -jar ./mc-modpack-builder.jar`
 
-## Build
+### Build
 
 Clone the repo:
 - `git clone https://github.com/maldeondo/mc-modpack-builder.git`
@@ -36,8 +34,6 @@ Clone the repo:
 
 Build fat-JAR using Gradle:
 - `./gradlew jar`
-
----
 
 ## Tech Stack
 
@@ -47,7 +43,7 @@ Build fat-JAR using Gradle:
 
 - Interface: Command-Line (CLI)
 
-### Dependencies
+#### Dependencies
 
 - JSON Parsing: [GSON](https://github.com/google/gson)
 
@@ -58,6 +54,8 @@ Build fat-JAR using Gradle:
 This project is licensed under the Apache License 2.0.
 
 See the `LICENSE` file for full license text and details.
+
+The copyright notice is included in both the `NOTICE` and source code files.
 
 ---
 
