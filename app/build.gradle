@@ -34,6 +34,18 @@ java {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 application {
     // Define the main class for the application.
     mainClass = 'mc.modpack.builder.Main'
