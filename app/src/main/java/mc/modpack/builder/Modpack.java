@@ -60,5 +60,18 @@ public class Modpack {
         }
     }
 
+    public void removeMod(String name) throws IndexOutOfBoundsException {
+        int target;
+
+        if (name == null || name == "") throw new IndexOutOfBoundsException();
+        else for (target = 0; target < current_mods; target++) {
+            if (modlist[target].getName() == name) {
+                removeMod(target);
+                break;
+            }
+        }
+
+    }
+
     public void printModpack() throws Exception { System.out.print(table.printTable(this)); }
 }

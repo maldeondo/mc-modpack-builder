@@ -16,6 +16,7 @@ public class Main {
         modpack.printModpack();
 
         modpack.removeMod(1);
+        modpack.removeMod("JEI");
         modpack.printModpack();
     }
 }
