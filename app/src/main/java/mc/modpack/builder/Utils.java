@@ -1,7 +1,7 @@
 package mc.modpack.builder;
 
 public class Utils {
-    public static final String WORKING_DIR = "~/.config/mc-modpack-builder";
+    public static final String WORKING_DIR = System.getProperty("user.home") + "/.config/mc-modpack-builder/";
 
     public static final int CLIENT_MOD = 0;
     public static final int SERVER_MOD = 1;
@@ -33,6 +33,14 @@ public class Utils {
 
     public static final String repeat(int amount, String text) {
         return new String(new char[amount]).replace("\0", text);
+    }
+
+    public static final boolean validString(String data) {
+        return (data != null && data != "");
+    }
+
+    public static final boolean validIndex(int number, int max) {
+        return (number >= 0 && number <= max);
     }
 
     //Table.java CONSTANTS

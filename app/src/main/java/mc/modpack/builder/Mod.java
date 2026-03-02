@@ -10,7 +10,7 @@ public class Mod {
     private String dLink;
 
     private int type; // Client (0) / Server (1) / Client + Server (2)
-    private int status;
+    private int status; // Unused (0) / Active (1) / Production (2) / Cancelled (3)
 
     public Mod(String name, String version, String eLink, String dLink, int type, int status) {
         this.name = name;

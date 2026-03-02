@@ -7,6 +7,8 @@ public class Table {
 
     public Table() {}
 
+    public int[] getLongestChars() { return longest_chars; }
+
     public void updateLongestRemoved(Modpack modpack) {
         resetLongestChars();
 
