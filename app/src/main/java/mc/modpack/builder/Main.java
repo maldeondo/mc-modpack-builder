@@ -1,9 +1,10 @@
 package mc.modpack.builder;
 
 import java.io.File;
+import java.io.FileWriter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -11,6 +12,7 @@ public class Main {
         Mod m2 = new Mod("JourneyMap", "v2", "http", "http", 0, 0);
         Mod m3 = new Mod("ChocoCraft", "v0.59.21", "http", "http", 1, 1);
 
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         //System.out.println(file.getPath());
 
@@ -18,14 +20,14 @@ public class Main {
         modpack.addMod(m1);
         modpack.addMod(m2);
         modpack.addMod(m3);
-        
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        //File file = new File(Utils.WORKING_DIR + "test.json");
-        //if (!file.exists()) file.createNewFile();
+        File file = new File(modpack.getFile());
 
-        mapper.writeValue(modpack.getFile(), modpack);
+        if (!file.exists()) file.createNewFile();
+        FileWriter writer = new FileWriter(file);
+
+        gson.toJson(modpack, writer);
+        writer.close();
 
         modpack.printModpack();
 
