@@ -34,15 +34,17 @@ public class Modpack {
 
     public String getName() { return name; }
 
+    public File getFilePath() { return modpack_file; }
+
     public int getModNum() { return current_mods; }
 
     public Mod[] getModList() { return modlist; }
 
     public Table getTable() { return table; }
 
-    public boolean full() { return current_mods == MAX_MODS; }
-
     // LOGIC BLOCK
+
+    public boolean full() { return current_mods == MAX_MODS; }
 
     public void addMod(Mod mod, int index) throws IndexOutOfBoundsException {
         if (!Utils.validIndex(index, current_mods) || full()) throw new IndexOutOfBoundsException();
