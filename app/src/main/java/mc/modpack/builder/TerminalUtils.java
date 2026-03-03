@@ -2,7 +2,6 @@ package mc.modpack.builder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
@@ -13,55 +12,91 @@ public class TerminalUtils {
 
     public TerminalUtils() throws IOException {
         this.jlineTerminal = TerminalBuilder.builder().system(true).build();
+        jlineTerminal.enterRawMode();
     }
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
     private static String tableFormat(int[] longestChars) {
-        return "%-3s| %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |\n";
+        return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
     }
 
     // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
     private static final String tableSeparator(int[] longestChars) {
-        return "---|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
+        return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
     }
 
-    public void principal(Modpack modpack, int[] longestChars) {
+    public void push(Modpack modpack, int selected) throws Exception {
+        int[] longestChars = modpack.getTable().getLongestChars();
+        PrintWriter writer = jlineTerminal.writer();
+
         jlineTerminal.puts(Capability.clear_screen);
         jlineTerminal.flush();
 
-        Reader reader = jlineTerminal.reader();
-        PrintWriter writer = jlineTerminal.writer();
-
         String dynamic_table_format = tableFormat(longestChars);
-        
-        String dynamic_table_separator = tableSeparator(longestChars);
 
         Mod temp;
-        StringBuilder block = new StringBuilder();
-
-        block.append("\n");
 
         writer.println();
-        writer.flush();
 
+        writer.print(String.format(
+            dynamic_table_format, 
+            "",
+            "Mod",
+            "Version",
+            "Type",
+            "Status",
+            ""
+        ));
 
-        block.append(String.format(dynamic_table_format, "", "Mod", "Version", "Type", "Status"));
-        writer.print(String.format(dynamic_table_format, "", "Mod", "Version", "Type", "Status"));
-        writer.flush();
-
-        block.append(tableSeparator(longestChars));
         writer.print(tableSeparator(longestChars));
+
+        for (int i = 0; i < selected; i++) {
+            temp = modpack.getMod(i);
+            writer.print(String.format(
+                dynamic_table_format,
+                String.valueOf(i + 1),
+                temp.getName(),
+                temp.getVersion(),
+                Utils.clientTypeFormat(temp.getModType()),
+                Utils.clientStatusFormat(temp.getModStatus()),
+                ""
+            ));
+        }
+
+        writer.print(String.format(
+            "\u001B[2m\u001B[1m" + dynamic_table_format + "\u001B[0m", 
+            String.valueOf(selected + 1),
+            modpack.getMod(selected).getName(),
+            modpack.getMod(selected).getVersion(),
+            Utils.clientTypeFormat(modpack.getMod(selected).getModType()),
+            Utils.clientStatusFormat(modpack.getMod(selected).getModStatus()),
+            " <"
+        ));
+
+        for (int i = selected + 1; i < modpack.getModNum(); i++) {
+            temp = modpack.getMod(i);
+            writer.print(String.format(
+                dynamic_table_format,
+                String.valueOf(i + 1),
+                temp.getName(),
+                temp.getVersion(),
+                Utils.clientTypeFormat(temp.getModType()),
+                Utils.clientStatusFormat(temp.getModStatus()),
+                ""
+            ));
+        }
+
         writer.flush();
+        //writer.close();
+    }
 
-        for (int i = 0; i < modpack.getModNum(); i++) {
-            temp = modpack.getMod(i);
-            block.append(String.format(dynamic_table_format, String.valueOf(i + 1),  temp.getName(), temp.getVersion(), Utils.clientTypeFormat(temp.getModType()), Utils.clientStatusFormat(temp.getModStatus())));
-        }
+    public char get() throws IOException {
+        return (char) jlineTerminal.reader().read();
+    }
 
-        for (int i = 0; i < modpack.getModNum(); i++) {
-            temp = modpack.getMod(i);
-        }
-
-        return block.toString();
+    public void clean() {
+        jlineTerminal.writer().print("\033[H"); 
+        jlineTerminal.writer().flush();
+        jlineTerminal.puts(Capability.clr_eos);
     }
 }
 

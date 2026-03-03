@@ -74,7 +74,7 @@ public class Main {
         writert.flush();
 
         // Use ANSI escape sequences for formatting (if supported)
-        writert.println("\u001B[1;31mThis text is bold and red\u001B[0m");
+        writert.println("\u001B[1;30mThis text is bold and red\u001B[0m");
         writert.flush();
         Reader reader = terminal.reader();
 
