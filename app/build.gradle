@@ -55,7 +55,7 @@ jar {
 
 application {
     // Define the main class for the application.
-    mainClass = 'mc.modpack.builder.Retrieve'
+    mainClass = 'mc.modpack.builder.Main'
 }
 
 tasks.named('test') {

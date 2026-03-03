@@ -18,6 +18,13 @@ package mc.modpack.builder;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
+
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp.Capability;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,5 +57,73 @@ public class Main {
         modpack.removeMod(1);
         modpack.removeMod("JEI");
         modpack.printModpack();
+    
+
+        // Create a dumb terminal
+        Terminal terminal = TerminalBuilder.builder().system(true).build();
+
+        System.out.println("Terminal type: " + terminal.getType());
+
+        terminal.writer().println("Hello from dumb terminal!");
+        terminal.writer().flush();
+
+        PrintWriter writert = terminal.writer();
+
+        // Write text
+        writert.println("Hello, JLine!");
+        writert.flush();
+
+        // Use ANSI escape sequences for formatting (if supported)
+        writert.println("\u001B[1;31mThis text is bold and red\u001B[0m");
+        writert.flush();
+        Reader reader = terminal.reader();
+
+        terminal.writer().println("Press any key (or 'q' to quit):");
+        terminal.writer().flush();
+
+        int c;
+
+        while ((c = reader.read()) != 'q') {
+            terminal.writer().printf("You pressed: %c (ASCII: %d)%n", (char) c, c);
+            terminal.writer().flush();
+        }
+
+
+            terminal.enterRawMode();
+            var readernew = terminal.reader();
+            var writernew  = terminal.writer();
+
+            boolean ejecutando = true;
+            int seleccion = 0;
+            String[] opciones = {"[1] Añadir Mod", "[2] Guardar Pack", "[3] Salir"};
+
+            while (ejecutando) {
+                // 1. LIMPIAR PANTALLA
+                terminal.puts(Capability.clear_screen);
+                terminal.flush();
+
+                // 2. DIBUJAR INTERFAZ
+                writernew.println("=== GESTOR DE MODPACKS ===");
+                for (int i = 0; i < opciones.length; i++) {
+                    if (i == seleccion) writernew.print("> "); // Marcador de selección
+                    else writernew.print("  ");
+                    writernew.println(opciones[i]);
+                }
+                writernew.println("==========================");
+                writernew.println("Usa 'W' (arriba), 'S' (abajo) o 'Q' (salir)");
+                writernew.flush();
+
+                // 3. REACCIONAR A TECLAS
+                int tecla = readernew.read();
+                switch (Character.toLowerCase((char) tecla)) {
+                    case 'w': if (seleccion > 0) seleccion--; break;
+                    case 's': if (seleccion < opciones.length - 1) seleccion++; break;
+                    case 'q': ejecutando = false; break;
+                }
+            }
+
+
+        terminal.close();
+    
     }
 }
