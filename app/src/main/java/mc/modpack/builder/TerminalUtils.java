@@ -2,10 +2,10 @@ package mc.modpack.builder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+
 import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
 
@@ -118,6 +118,9 @@ public class TerminalUtils {
     public void close() throws IOException {
         jlineTerminal.puts(Capability.cursor_visible);
         jlineTerminal.flush();
+
+        jlineTerminal.reader().close();
+        jlineTerminal.writer().close();
 
         jlineTerminal.close();
     }
