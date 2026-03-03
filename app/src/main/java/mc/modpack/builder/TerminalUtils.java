@@ -2,9 +2,11 @@ package mc.modpack.builder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
 
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
 
 public class TerminalUtils {
@@ -13,6 +15,9 @@ public class TerminalUtils {
     public TerminalUtils() throws IOException {
         this.jlineTerminal = TerminalBuilder.builder().system(true).build();
         jlineTerminal.enterRawMode();
+
+        jlineTerminal.puts(Capability.cursor_invisible);
+        jlineTerminal.flush();
     }
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
     private static String tableFormat(int[] longestChars) {
@@ -89,14 +94,32 @@ public class TerminalUtils {
         //writer.close();
     }
 
-    public char get() throws IOException {
-        return (char) jlineTerminal.reader().read();
+    public String read() throws IOException {
+        NonBlockingReader reader = jlineTerminal.reader();
+        int num;
+
+        if ((num = reader.read()) != 27) return String.valueOf((char) num);
+        else if ((num = reader.read(10)) != 10) return switch (reader.read(10)) {
+                case 65 -> "UP";
+                case 66 -> "DOWN";
+                case 67 -> "RIGHT";
+                case 68 -> "LEFT";
+                default -> "UNKNOWN";
+        };
+        else return "ESC";
     }
 
     public void clean() {
         jlineTerminal.writer().print("\033[H"); 
         jlineTerminal.writer().flush();
         jlineTerminal.puts(Capability.clr_eos);
+    }
+
+    public void close() throws IOException {
+        jlineTerminal.puts(Capability.cursor_visible);
+        jlineTerminal.flush();
+
+        jlineTerminal.close();
     }
 }
 

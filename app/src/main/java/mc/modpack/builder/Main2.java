@@ -17,15 +17,15 @@ public class Main2 {
         modpack.addMod(m2);
         modpack.addMod(m3);
 
-        int selected = 0; boolean exit = false;
+        int selected = 0; boolean running = true;
 
-        while (!exit) {
+        while (running) {
             term.clean();
             term.push(modpack, selected);
-            switch (Character.toLowerCase(term.get())) {
-                case 'w': if (selected > 0) selected--; break;
-                case 's': if (selected < modpack.getModNum() - 1) selected++; break;
-                case 'q': exit = true; break;
+            switch (term.read()) {
+                case "UP": if (selected > 0) selected--; break;
+                case "DOWN": if (selected < modpack.getModNum() - 1) selected++; break;
+                case "q", "Q": running = false; break;
                 default: break;
             }
         }
