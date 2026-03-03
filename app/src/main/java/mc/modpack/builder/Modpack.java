@@ -22,14 +22,14 @@ public class Modpack {
     private Mod[] modlist; // mod array
 
     private String name;
-    private String modpack_file;
+    private String file;
     private Table table;
     
     public Modpack(String name, int max_mods) {
         this.MAX_MODS = max_mods;
         if (Utils.validString(name)) {
             this.name = name;
-            modpack_file = String.format("%s%s.json", Utils.WORKING_DIR, name);
+            file = Utils.fileFromName(name);
         }
         modlist = new Mod[MAX_MODS];
         table = new Table();
@@ -49,13 +49,15 @@ public class Modpack {
     // GSON
 
     public String getName() { return name; }
-    public String getFile() { return modpack_file; }
+    public String getFile() { return file; }
     public int getModNum() { return current_mods; }
     public Mod[] getModList() { return modlist; }
     public Table getTable() { return table; }
 
-    public void setName(String name) { this.name = name; }
-    public void setFile(String modpack_file) { this.modpack_file = modpack_file; }
+    public void setName(String name) {
+        this.name = name;
+        this.file = Utils.fileFromName(name);
+    } 
     public void setModNum(int current_mods) { this.current_mods = current_mods; }
     public void setModList(Mod[] modlist) { this.modlist = modlist; }
     public void setTable(Table table) { this.table = table; }

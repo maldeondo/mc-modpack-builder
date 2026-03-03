@@ -19,6 +19,10 @@ package mc.modpack.builder;
 public class Utils {
     public static final String WORKING_DIR = System.getProperty("user.home") + "/.config/mc-modpack-builder/";
 
+    public static String fileFromName(String name) {
+        return String.format("%s%s.json", WORKING_DIR, name);
+    }
+
     public static final int CLIENT_MOD = 0;
     public static final int SERVER_MOD = 1;
     public static final int CLIENT_AND_SERVER_MOD = 2;

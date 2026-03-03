@@ -34,6 +34,8 @@ public class Retrieve {
 
         retrieve.printModpack();
 
+        System.out.println(retrieve.getFile());
+
         reader.close();
     }
 }
