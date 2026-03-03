@@ -51,7 +51,7 @@ public class Modpack {
     public String getName() { return name; }
     public String getFile() { return file; }
     public int getModNum() { return currentMods; }
-    public Mod[] getModList() { return modArray; }
+    public Mod[] getModArray() { return modArray; }
     public Table getTable() { return table; }
 
     public void setName(String name) {
@@ -59,7 +59,7 @@ public class Modpack {
         this.file = Utils.fileFromName(name);
     } 
     public void setModNum(int currentMods) { this.currentMods = currentMods; }
-    public void setModList(Mod[] modArray) { this.modArray = modArray; }
+    public void setModArray(Mod[] modArray) { this.modArray = modArray; }
     public void setTable(Table table) { this.table = table; }
 
     // LOGIC BLOCK

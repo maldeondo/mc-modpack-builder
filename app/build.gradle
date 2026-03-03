@@ -30,6 +30,8 @@ dependencies {
     //implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
     
     implementation libs.gson
+
+    implementation libs.jline.terminal
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
