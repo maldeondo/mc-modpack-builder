@@ -33,17 +33,14 @@ public class TerminalUtils {
         int[] longestChars = modpack.getTable().getLongestChars();
         PrintWriter writer = jlineTerminal.writer();
 
-        jlineTerminal.puts(Capability.clear_screen);
-        jlineTerminal.flush();
-
-        String dynamic_table_format = tableFormat(longestChars);
+        String dynamicTableFormat = tableFormat(longestChars);
 
         Mod temp;
 
         writer.println();
 
         writer.print(String.format(
-            dynamic_table_format, 
+            dynamicTableFormat, 
             "",
             "Mod",
             "Version",
@@ -57,7 +54,7 @@ public class TerminalUtils {
         for (int i = 0; i < selected; i++) {
             temp = modpack.getMod(i);
             writer.print(String.format(
-                dynamic_table_format,
+                dynamicTableFormat,
                 String.valueOf(i + 1),
                 temp.getName(),
                 temp.getVersion(),
@@ -68,7 +65,7 @@ public class TerminalUtils {
         }
 
         writer.print(String.format(
-            "\u001B[2m\u001B[1m" + dynamic_table_format + "\u001B[0m", 
+            "\u001B[2m\u001B[1m" + dynamicTableFormat + "\u001B[0m", 
             String.valueOf(selected + 1),
             modpack.getMod(selected).getName(),
             modpack.getMod(selected).getVersion(),
@@ -80,7 +77,7 @@ public class TerminalUtils {
         for (int i = selected + 1; i < modpack.getModNum(); i++) {
             temp = modpack.getMod(i);
             writer.print(String.format(
-                dynamic_table_format,
+                dynamicTableFormat,
                 String.valueOf(i + 1),
                 temp.getName(),
                 temp.getVersion(),
