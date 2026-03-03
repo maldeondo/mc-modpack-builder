@@ -23,12 +23,14 @@ public class Main2 {
             term.clean();
             term.push(modpack, selected);
             switch (term.read()) {
-                case "UP": if (selected > 0) selected--; break;
-                case "DOWN": if (selected < modpack.getModNum() - 1) selected++; break;
+                case "UP", "w": if (selected > 0) selected--; break;
+                case "DOWN", "s": if (selected < modpack.getModNum() - 1) selected++; break;
                 case "q", "Q": running = false; break;
                 default: break;
             }
         }
+
+        term.close();
 
         //term.principal(modpack, 1);
     }
