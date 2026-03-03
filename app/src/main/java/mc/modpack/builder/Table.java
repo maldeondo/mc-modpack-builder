@@ -17,7 +17,7 @@
 package mc.modpack.builder;
 
 public class Table {
-    private int[] longest_chars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
+    private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
     
     // Index -- Name -- Version -- Type -- Status
 
@@ -25,8 +25,8 @@ public class Table {
 
     // GSON
 
-    public int[] getLongestChars() { return longest_chars; }
-    public void setLongestChars(int[] longest_chars) { this.longest_chars = longest_chars; }
+    public int[] getLongestChars() { return longestChars; }
+    public void setLongestChars(int[] longestChars) { this.longestChars = longestChars; }
 
     public void updateLongestRemoved(Modpack modpack) {
         resetLongestChars();
@@ -43,28 +43,28 @@ public class Table {
     private void updateLongestField(String data, int field, int minimum) {
         int chars = data.length();
 
-        if (chars > minimum && chars > longest_chars[field]) longest_chars[field] = chars;
+        if (chars > minimum && chars > longestChars[field]) longestChars[field] = chars;
     }
 
     public void resetLongestChars() {
-        longest_chars[Utils.LONGEST_NAME_INDEX] = Utils.MINIMUM_NAME_LENGHT;
-        longest_chars[Utils.LONGEST_VERSION_INDEX] = Utils.MINIMUM_VERSION_LENGHT;
+        longestChars[Utils.LONGEST_NAME_INDEX] = Utils.MINIMUM_NAME_LENGHT;
+        longestChars[Utils.LONGEST_VERSION_INDEX] = Utils.MINIMUM_VERSION_LENGHT;
     }
 
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
-    private static String tableFormat(int[] longest_chars) {
-        return "%-3s| %-" + longest_chars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longest_chars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |\n";
+    private static String tableFormat(int[] longestChars) {
+        return "%-3s| %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |\n";
     }
 
     // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
-    private static final String tableSeparator(int[] longest_chars) {
-        return "---|" + Utils.repeat(longest_chars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longest_chars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
+    private static final String tableSeparator(int[] longestChars) {
+        return "---|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
     }
 
     public String printTable(Modpack modpack) throws Exception {
-        String dynamic_table_format = tableFormat(longest_chars);
+        String dynamic_table_format = tableFormat(longestChars);
         
-        String dynamic_table_separator = tableSeparator(longest_chars);
+        String dynamic_table_separator = tableSeparator(longestChars);
 
         Mod temp;
         StringBuilder block = new StringBuilder();

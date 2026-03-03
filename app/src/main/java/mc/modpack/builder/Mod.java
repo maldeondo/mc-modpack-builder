@@ -52,15 +52,15 @@ public class Mod {
 
     public void setName(String name) { this.name = name; }
     public void setVersion(String version) { this.version = version; }
-    public void setELink(String e_link) { this.eLink = e_link; }
-    public void setDLink(String d_link) { this.dLink = d_link; }
+    public void setELink(String eLink) { this.eLink = eLink; }
+    public void setDLink(String dLink) { this.dLink = dLink; }
     public void setModType(int type) { this.type = type; }
     public void setModStatus(int status) { this.status = status; }
     public void setFileName(String fileName) { this.fileName = fileName; }
 
 
-    public void updateMod(String version, String d_link) {
+    public void updateMod(String version, String dLink) {
         setVersion(version);
-        setDLink(d_link);
+        setDLink(dLink);
     }
 }
