@@ -45,7 +45,9 @@ Build fat-JAR using Gradle:
 
 #### Dependencies
 
-- JSON Parsing: [GSON](https://github.com/google/gson)
+- JSON Parsing: [GSON](https://mvnrepository.com/artifact/com.google.code.gson/gson)
+
+- Terminal I/O (TUI): [JLine-Terminal](https://mvnrepository.com/artifact/org.jline/jline-terminal)
 
 > Gradle handles all dependencies and build configuration. Project requirements and dependency versions can be found in the build.gradle file.
 

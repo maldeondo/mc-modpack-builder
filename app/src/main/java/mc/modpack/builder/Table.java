@@ -61,23 +61,4 @@ public class Table {
         return "---|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
     }
 
-    public String printTable(Modpack modpack) throws Exception {
-        String dynamic_table_format = tableFormat(longestChars);
-        
-        String dynamic_table_separator = tableSeparator(longestChars);
-
-        Mod temp;
-        StringBuilder block = new StringBuilder();
-
-        block.append("\n");
-        block.append(String.format(dynamic_table_format, "", "Mod", "Version", "Type", "Status"));
-        block.append(dynamic_table_separator);
-
-        for (int i = 0; i < modpack.getModNum(); i++) {
-            temp = modpack.getMod(i);
-            block.append(String.format(dynamic_table_format, String.valueOf(i + 1),  temp.getName(), temp.getVersion(), Utils.clientTypeFormat(temp.getModType()), Utils.clientStatusFormat(temp.getModStatus())));
-        }
-
-        return block.toString();
-    }
 }

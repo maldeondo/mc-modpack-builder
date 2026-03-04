@@ -5,8 +5,10 @@
 guava = "33.4.6-jre"
 junit-jupiter = "5.12.1"
 gson = "2.10.1"
+jline-terminal = "3.30.6"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+jline-terminal = { module = "org.jline:jline-terminal", version.ref = "jline-terminal" }

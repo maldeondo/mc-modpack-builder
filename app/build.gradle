@@ -30,6 +30,8 @@ dependencies {
     //implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
     
     implementation libs.gson
+
+    implementation libs.jline.terminal
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -53,7 +55,7 @@ jar {
 
 application {
     // Define the main class for the application.
-    mainClass = 'mc.modpack.builder.Retrieve'
+    mainClass = 'mc.modpack.builder.Main2'
 }
 
 tasks.named('test') {
