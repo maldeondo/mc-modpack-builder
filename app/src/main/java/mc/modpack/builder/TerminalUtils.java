@@ -11,16 +11,29 @@ import org.jline.utils.InfoCmp.Capability;
 
 public class TerminalUtils {
     private Terminal jlineTerminal;
+    private Modpack modpack;
 
-    public TerminalUtils() throws IOException {
+    private int height;
+    private int startScrollingIndex;
+    private int endScrollingIndex;
+
+    private int selected;
+
+    public TerminalUtils(Modpack modpack) throws IOException {
         this.jlineTerminal = TerminalBuilder.builder().system(true).build();
         jlineTerminal.enterRawMode();
+
+        this.modpack = modpack;
+
+        height = jlineTerminal.getHeight();
+        startScrollingIndex = 0;
+        endScrollingIndex = 4;
 
         jlineTerminal.puts(Capability.cursor_invisible);
         jlineTerminal.flush();
     }
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
-    private static String tableFormat(int[] longestChars) {
+    private static final String tableFormat(int[] longestChars) {
         return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
     }
 
@@ -29,15 +42,39 @@ public class TerminalUtils {
         return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
     }
 
-    public void push(Modpack modpack, int selected) throws Exception {
+    private void resize() {
+        height = endScrollingIndex; // CHANGE TO HEIGHT
+        //endScrollingIndex += Math.max(0, jlineTerminal.getHeight() - 10);
+
+        if (endScrollingIndex > modpack.getModNum()) endScrollingIndex = modpack.getModNum();
+
+        if (selected > endScrollingIndex && selected < modpack.getModNum()) {
+            startScrollingIndex++;
+            endScrollingIndex++;
+
+        } else if (selected < startScrollingIndex && selected != (modpack.getModNum() - 1)) {
+            startScrollingIndex--;
+            endScrollingIndex--;
+        }
+    }
+
+    public void moveUp() {
+        if (selected > 0) selected--;
+    }
+
+    public void moveDown() {
+        if (selected < modpack.getModNum() - 1) selected++;
+    }
+
+    public void writeModpack() throws Exception {
         int[] longestChars = modpack.getTable().getLongestChars();
         PrintWriter writer = jlineTerminal.writer();
+
+        resize();
 
         String dynamicTableFormat = tableFormat(longestChars);
 
         Mod temp;
-
-        writer.println();
 
         writer.print(String.format(
             dynamicTableFormat, 
@@ -51,7 +88,7 @@ public class TerminalUtils {
 
         writer.print(tableSeparator(longestChars));
 
-        for (int i = 0; i < selected; i++) {
+        for (int i = startScrollingIndex; i < selected; i++) {
             temp = modpack.getMod(i);
             writer.print(String.format(
                 dynamicTableFormat,
@@ -74,7 +111,7 @@ public class TerminalUtils {
             " <"
         ));
 
-        for (int i = selected + 1; i < modpack.getModNum(); i++) {
+        for (int i = selected + 1; i <= endScrollingIndex; i++) {
             temp = modpack.getMod(i);
             writer.print(String.format(
                 dynamicTableFormat,
@@ -91,7 +128,7 @@ public class TerminalUtils {
         //writer.close();
     }
 
-    public String read() throws IOException {
+    public String readMovement() throws IOException {
         NonBlockingReader reader = jlineTerminal.reader();
         int num;
 
@@ -113,6 +150,7 @@ public class TerminalUtils {
     }
 
     public void close() throws IOException {
+        // Re-allow cursor to restore terminal usability
         jlineTerminal.puts(Capability.cursor_visible);
         jlineTerminal.flush();
 

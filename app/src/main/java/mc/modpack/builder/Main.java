@@ -52,11 +52,11 @@ public class Main {
         gson.toJson(modpack, writer);
         writer.close();
 
-        modpack.printModpack();
+
 
         modpack.removeMod(1);
         modpack.removeMod("JEI");
-        modpack.printModpack();
+
     
 
         // Create a dumb terminal
