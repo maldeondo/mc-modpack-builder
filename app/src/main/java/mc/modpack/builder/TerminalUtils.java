@@ -27,7 +27,7 @@ public class TerminalUtils {
 
         height = jlineTerminal.getHeight();
         startScrollingIndex = 0;
-        endScrollingIndex = 4;
+        endScrollingIndex = Math.min(height - 4, modpack.getModNum() - 1);
 
         jlineTerminal.puts(Capability.cursor_invisible);
         jlineTerminal.flush();
@@ -43,11 +43,12 @@ public class TerminalUtils {
     }
 
     private void resize() {
-        height = endScrollingIndex; // CHANGE TO HEIGHT
-        //endScrollingIndex += Math.max(0, jlineTerminal.getHeight() - 10);
+       if (height != jlineTerminal.getHeight()) {
+            height = jlineTerminal.getHeight();
 
-        if (endScrollingIndex > modpack.getModNum()) endScrollingIndex = modpack.getModNum();
-
+            endScrollingIndex = Math.min(jlineTerminal.getHeight() - 4, modpack.getModNum() - 1);
+        }
+        
         if (selected > endScrollingIndex && selected < modpack.getModNum()) {
             startScrollingIndex++;
             endScrollingIndex++;
