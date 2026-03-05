@@ -2,7 +2,8 @@
 - [ ] Implement a TUI-style interface
     - [x] Support instant key pressing events instead of traditional inputs
     - [ ] Separate the interaction into different menus
-    - [ ] Create a solid printing experience, w/out ever-lasting past prints to console
+    - [x] Create a solid printing experience, w/out ever-lasting past prints to console
+    - [ ] Create a low "footer" menu with key pressing options like [S]ave and [Q]uit
 
 - [ ] Generally improve UX
     - [ ] Auto-save all data after modification
