@@ -16,6 +16,7 @@ public class TerminalUtils {
     private int height;
     private int startScrollingIndex;
     private int endScrollingIndex;
+    private int scrollingSize;
 
     private int selected;
 
@@ -28,6 +29,7 @@ public class TerminalUtils {
         height = jlineTerminal.getHeight();
         startScrollingIndex = 0;
         endScrollingIndex = Math.min(height - 4, modpack.getModNum() - 1);
+        scrollingSize = Math.min(height - 4, modpack.getModNum() - 1);
 
         jlineTerminal.puts(Capability.cursor_invisible);
         jlineTerminal.flush();
@@ -43,17 +45,19 @@ public class TerminalUtils {
     }
 
     private void resize() {
-       if (height != jlineTerminal.getHeight()) {
+        if (height != jlineTerminal.getHeight()) {
             height = jlineTerminal.getHeight();
 
-            endScrollingIndex = Math.min(jlineTerminal.getHeight() - 4, modpack.getModNum() - 1);
+            scrollingSize = Math.min(height - 4, modpack.getModNum() - 1);
+            //endScrollingIndex += scrollingSize / 2;
+            
         }
         
-        if (selected > endScrollingIndex && selected < modpack.getModNum()) {
+        if (selected > endScrollingIndex) {
             startScrollingIndex++;
             endScrollingIndex++;
 
-        } else if (selected < startScrollingIndex && selected != (modpack.getModNum() - 1)) {
+        } else if (selected < startScrollingIndex) {
             startScrollingIndex--;
             endScrollingIndex--;
         }
@@ -75,8 +79,6 @@ public class TerminalUtils {
 
         String dynamicTableFormat = tableFormat(longestChars);
 
-        Mod temp;
-
         writer.print(String.format(
             dynamicTableFormat, 
             "",
@@ -89,44 +91,30 @@ public class TerminalUtils {
 
         writer.print(tableSeparator(longestChars));
 
-        for (int i = startScrollingIndex; i < selected; i++) {
-            temp = modpack.getMod(i);
-            writer.print(String.format(
-                dynamicTableFormat,
-                String.valueOf(i + 1),
-                temp.getName(),
-                temp.getVersion(),
-                Utils.clientTypeFormat(temp.getModType()),
-                Utils.clientStatusFormat(temp.getModStatus()),
-                ""
-            ));
-        }
+        for (int i = startScrollingIndex; i < selected; i++) writer.print(buildModLine(i, dynamicTableFormat));
 
-        writer.print(String.format(
-            "\u001B[2m\u001B[1m" + dynamicTableFormat + "\u001B[0m", 
-            String.valueOf(selected + 1),
-            modpack.getMod(selected).getName(),
-            modpack.getMod(selected).getVersion(),
-            Utils.clientTypeFormat(modpack.getMod(selected).getModType()),
-            Utils.clientStatusFormat(modpack.getMod(selected).getModStatus()),
-            " <"
-        ));
+        writer.print(buildModLine(selected, "\u001B[2m\u001B[1m" + dynamicTableFormat + "\u001B[0m"));
 
-        for (int i = selected + 1; i <= endScrollingIndex; i++) {
-            temp = modpack.getMod(i);
-            writer.print(String.format(
-                dynamicTableFormat,
-                String.valueOf(i + 1),
-                temp.getName(),
-                temp.getVersion(),
-                Utils.clientTypeFormat(temp.getModType()),
-                Utils.clientStatusFormat(temp.getModStatus()),
-                ""
-            ));
-        }
+        for (int i = selected + 1; i <= endScrollingIndex; i++) writer.print(buildModLine(i, dynamicTableFormat));
 
         writer.flush();
-        //writer.close();
+    }
+
+    private String buildModLine(int index, String table) throws Exception {
+        StringBuilder block = new StringBuilder();
+        Mod temp = modpack.getMod(index);
+
+        block.append(String.format(
+            table,
+            String.valueOf(index + 1),
+            temp.getName(),
+            temp.getVersion(),
+            Utils.clientTypeFormat(temp.getModType()),
+            Utils.clientStatusFormat(temp.getModStatus()),
+            ""
+        ));
+
+        return block.toString();
     }
 
     public String readMovement() throws IOException {
