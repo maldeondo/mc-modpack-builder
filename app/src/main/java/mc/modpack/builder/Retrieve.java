@@ -32,7 +32,9 @@ public class Retrieve {
     
         retrieve = gson.fromJson(reader, Modpack.class);
 
-        retrieve.printModpack();
+
+
+        System.out.println(retrieve.getFile());
 
         reader.close();
     }
