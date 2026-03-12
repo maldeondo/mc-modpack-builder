@@ -32,7 +32,6 @@ public class TerminalUtils {
     private int height;
     private int startScrollingIndex;
     private int endScrollingIndex;
-    private int scrollingSize;
 
     private int selected;
 
@@ -42,10 +41,9 @@ public class TerminalUtils {
 
         this.modpack = modpack;
 
-        height = jlineTerminal.getHeight();
+        height = Math.min(modpack.getModNum() - 1, jlineTerminal.getHeight() - 4);
         startScrollingIndex = 0;
-        endScrollingIndex = Math.min(height - 4, modpack.getModNum() - 1);
-        scrollingSize = Math.min(height - 4, modpack.getModNum() - 1);
+        endScrollingIndex = Math.min(height, modpack.getModNum() - 1);
 
         jlineTerminal.puts(Capability.cursor_invisible);
         jlineTerminal.flush();
@@ -61,10 +59,50 @@ public class TerminalUtils {
     }
 
     private void resize() {
-        if (height != jlineTerminal.getHeight()) {
-            height = jlineTerminal.getHeight();
+        int modpackLength = modpack.getModNum() - 1;
+        if (height != Math.min(modpackLength, jlineTerminal.getHeight() - 4)) {
+            int lastHeight = height;
+            height = Math.min(modpackLength, jlineTerminal.getHeight() - 4);
 
-            scrollingSize = Math.min(height - 4, modpack.getModNum() - 1);
+            int sizeIncrease = Math.abs(lastHeight - height);
+            int relativeTop = (selected - startScrollingIndex);
+            int relativeBottom = (endScrollingIndex - selected);
+            int modsLeftBottom = modpackLength - endScrollingIndex;
+            int modsLeftTop = startScrollingIndex;
+                
+
+            if(lastHeight > height) { //Table size has been reduced
+                modpack.getMod(selected).setName("Reducing");
+                int difference = lastHeight - height;
+                int spaceLeftBottom = endScrollingIndex - selected;
+
+                //Checking if there is space below the cursor
+                if(difference <= spaceLeftBottom) {
+                    endScrollingIndex -= difference;
+                }
+                else {
+                    //We'll need to reduce from the top as well
+                    endScrollingIndex -= spaceLeftBottom;
+                    difference -= spaceLeftBottom;
+                    startScrollingIndex += difference;
+                }
+            }
+            else { //Table size has been increased
+                modpack.getMod(selected).setName("asd");
+                int spaceToFill = height - lastHeight;
+                if(modsLeftBottom < spaceToFill) {
+                    endScrollingIndex += spaceToFill;
+                }
+                else {
+                    endScrollingIndex += (modsLeftBottom - 1);
+                    spaceToFill -= modsLeftBottom;
+                    startScrollingIndex -= spaceToFill;
+                }
+
+                if(endScrollingIndex > modpackLength) {
+                    endScrollingIndex = modpackLength;
+                }
+            }
             //endScrollingIndex += scrollingSize / 2;
             
         }
@@ -111,8 +149,10 @@ public class TerminalUtils {
 
         writer.print(buildModLine(selected, "\u001B[2m\u001B[1m" + dynamicTableFormat + "\u001B[0m"));
 
-        for (int i = selected + 1; i <= endScrollingIndex; i++) writer.print(buildModLine(i, dynamicTableFormat));
-
+        for (int i = selected + 1; i <= endScrollingIndex; i++) {
+            writer.print(i);
+            writer.print(buildModLine(i, dynamicTableFormat));
+    }   
         writer.flush();
     }
 
@@ -165,4 +205,3 @@ public class TerminalUtils {
         jlineTerminal.close();
     }
 }
-
