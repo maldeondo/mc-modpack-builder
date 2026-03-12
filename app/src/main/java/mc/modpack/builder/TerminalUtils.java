@@ -127,7 +127,7 @@ public class TerminalUtils {
             temp.getVersion(),
             Utils.clientTypeFormat(temp.getModType()),
             Utils.clientStatusFormat(temp.getModStatus()),
-            ""
+	        (index == selected) ? " <" : ""
         ));
 
         return block.toString();
