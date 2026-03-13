@@ -28,6 +28,7 @@ import org.jline.utils.InfoCmp.Capability;
 public class TerminalUtils {
     private Terminal jlineTerminal;
     private Modpack modpack;
+    private Logger logger;
 
     private int height;
     private int startScrollingIndex;
@@ -35,7 +36,9 @@ public class TerminalUtils {
 
     private int selected;
 
-    public TerminalUtils(Modpack modpack) throws IOException {
+    public TerminalUtils(Modpack modpack, Logger logger) throws IOException {
+        this.logger = logger;
+
         this.jlineTerminal = TerminalBuilder.builder().system(true).build();
         jlineTerminal.enterRawMode();
 
@@ -118,10 +121,12 @@ public class TerminalUtils {
     }
 
     public void moveUp() {
+        logger.logLine("Moving up");
         if (selected > 0) selected--;
     }
 
     public void moveDown() {
+        logger.logLine("Moving down");
         if (selected < modpack.getModNum() - 1) selected++;
     }
 

@@ -33,10 +33,21 @@ import com.google.gson.GsonBuilder;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        run();
+        String logRoute = "";
+
+        try {
+            logRoute = args[0];
+        }
+        catch (Exception e) {}
+
+        Logger logger = new Logger(logRoute);
+
+        run(logger);
     }
 
-    private static void run() throws Exception {
+    private static void run(Logger logger) throws Exception {
+        logger.log("Test" + 1);
+
         Mod m1 = new Mod("JEI", "v1", "http", "http", 2, 2);
         Mod m2 = new Mod("JourneyMap", "v2", "http", "http", 0, 0);
         Mod m3 = new Mod("ChocoCraft", "v0.59.213", "http", "http", 1, 1);
@@ -54,7 +65,7 @@ public class Main {
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
 
-        TerminalUtils term = new TerminalUtils(modpack);
+        TerminalUtils term = new TerminalUtils(modpack, logger);
 
         boolean running = true;
 
@@ -69,6 +80,7 @@ public class Main {
             }
         }
 
+        logger.terminate();
         term.close();
     }
 }
