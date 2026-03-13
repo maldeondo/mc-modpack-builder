@@ -75,50 +75,6 @@ public class TerminalUtils {
             int lastHeight = height;
             height = Math.min(modpackLength, jlineTerminal.getHeight() - 4);
             table.setTableHeight(height + 1);
-
-            int sizeIncrease = Math.abs(lastHeight - height);
-            int relativeTop = (selected - startScrollingIndex);
-            int relativeBottom = (endScrollingIndex - selected);
-            int modsLeftBottom = modpackLength - endScrollingIndex;
-            int modsLeftTop = startScrollingIndex;
-                
-
-            if(lastHeight > height) { //Table size has been reduced
-                logger.log("Reducing. New size: " + height);
-                table.getRelativePosition(selected).setName("Reducing");
-                int difference = lastHeight - height;
-                int spaceLeftBottom = endScrollingIndex - selected;
-
-                //Checking if there is space below the cursor
-                if(difference <= spaceLeftBottom) {
-                    endScrollingIndex -= difference;
-                }
-                else {
-                    //We'll need to reduce from the top as well
-                    endScrollingIndex -= spaceLeftBottom;
-                    difference -= spaceLeftBottom;
-                    startScrollingIndex += difference;
-                }
-            }
-            else { //Table size has been increased
-                logger.log("Increasing. New size: " + height);
-                table.getRelativePosition(selected).setName("Increasing");
-                int spaceToFill = height - lastHeight;
-                if(modsLeftBottom < spaceToFill) {
-                    endScrollingIndex += spaceToFill;
-                }
-                else {
-                    endScrollingIndex += (modsLeftBottom - 1);
-                    spaceToFill -= modsLeftBottom;
-                    startScrollingIndex -= spaceToFill;
-                }
-
-                if(endScrollingIndex > modpackLength) {
-                    endScrollingIndex = modpackLength;
-                }
-            }
-            //endScrollingIndex += scrollingSize / 2;
-            
         }
         
         if (selected > endScrollingIndex) {

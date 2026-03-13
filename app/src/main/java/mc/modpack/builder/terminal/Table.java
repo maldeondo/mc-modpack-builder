@@ -62,7 +62,14 @@ public class Table {
     }
 
     public void setTableHeight(int height) {
+        int offset = height - this.height;
+        int spaceLeftBottom = height - (this.height + getStartingPos());
         this.height = height;
+
+        int spaceTop = offset - spaceLeftBottom;
+        if(spaceTop > 0) {
+            setStartingPos(getStartingPos() - spaceTop);
+        }
     }
 
     public void setStartingPos(int startingPos) {
@@ -99,7 +106,7 @@ public class Table {
             selected++;
         }
 
-        if(selected > (getStartingPos() + height)) {
+        if(selected > (getStartingPos() + height - 1)) {
             setStartingPos(getStartingPos() + 1);
         }
     }
@@ -114,7 +121,7 @@ public class Table {
 
         block.append(String.format(
                 format,
-                String.valueOf(position + 1),
+                String.valueOf(position + 1 + getStartingPos()),
                 mod.getName(),
                 mod.getVersion(),
                 Utils.clientTypeFormat(mod.getModType()),
