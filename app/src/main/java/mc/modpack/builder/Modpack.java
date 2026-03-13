@@ -19,12 +19,12 @@ package mc.modpack.builder;
 import java.util.ArrayList;
 
 public class Modpack {
+    private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
     private ArrayList<Mod> modList; // mod list
     private int modNum = 0;
 
     private String name;
     private String file;
-    private Table table;
     
     public Modpack(String name, ArrayList<Mod> modList) {
         if (Utils.validString(name)) {
@@ -33,7 +33,6 @@ public class Modpack {
         }
 
         this.modList = modList;
-        table = new Table();
     }
 
     public Modpack(String name) { this(name, new ArrayList<Mod>()); }
@@ -53,7 +52,6 @@ public class Modpack {
     public String getFile() { return file; }
     public int getModNum() { return modNum; }
     public ArrayList<Mod> getModArray() { return modList; }
-    public Table getTable() { return table; }
 
     public void setName(String name) {
         this.name = name;
@@ -61,7 +59,6 @@ public class Modpack {
     } 
     public void setModNum(int modNum) { this.modNum = modNum; }
     public void setModArray(ArrayList<Mod> modArray) { this.modList = modArray; }
-    public void setTable(Table table) { this.table = table; }
 
     // LOGIC BLOCK
 
@@ -71,7 +68,8 @@ public class Modpack {
             modList.add(index, mod);
             modNum++;
 
-            table.updateLongest(mod);
+            updateLongestField(mod.getName(), Utils.LONGEST_NAME_INDEX, Utils.MINIMUM_NAME_LENGHT);
+            updateLongestField(mod.getVersion(), Utils.LONGEST_VERSION_INDEX, Utils.MINIMUM_VERSION_LENGHT);
         }
     }
 
@@ -95,7 +93,7 @@ public class Modpack {
             modList.remove(index);
             modNum--;
 
-            table.updateLongestRemoved(this);
+            updateLongestRemoved(this);
         }
     }
 
@@ -107,5 +105,31 @@ public class Modpack {
                 break;
             }
         }
+    }
+
+    private void updateLongestField(String data, int field, int minimum) {
+        int chars = data.length();
+
+        if (chars > minimum && chars > longestChars[field]) longestChars[field] = chars;
+    }
+
+    public void updateLongestRemoved(Modpack modpack) {
+        resetLongestChars();
+
+        for (int i = 0; i < modpack.getModNum(); i++) updateLongest(modpack.getMod(i));
+    }
+
+    public void resetLongestChars() {
+        longestChars[Utils.LONGEST_NAME_INDEX] = Utils.MINIMUM_NAME_LENGHT;
+        longestChars[Utils.LONGEST_VERSION_INDEX] = Utils.MINIMUM_VERSION_LENGHT;
+    }
+
+    public void updateLongest(Mod mod) {
+        updateLongestField(mod.getName(), Utils.LONGEST_NAME_INDEX, Utils.MINIMUM_NAME_LENGHT);
+        updateLongestField(mod.getVersion(), Utils.LONGEST_VERSION_INDEX, Utils.MINIMUM_VERSION_LENGHT);
+    }
+
+    public int[] getLongestChars() {
+        return longestChars;
     }
 }

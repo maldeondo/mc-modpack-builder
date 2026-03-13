@@ -21,7 +21,7 @@ public class App {
         try {
             Main.main(args);
         } catch (Exception ex) {
-            System.out.println("Error desconocido.");
+            System.out.println(ex.getMessage());
         }
     }
 }
