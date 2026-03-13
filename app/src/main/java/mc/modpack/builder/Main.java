@@ -46,8 +46,6 @@ public class Main {
     }
 
     private static void run(Logger logger) throws Exception {
-        logger.log("Test" + 1);
-
         Mod m1 = new Mod("JEI", "v1", "http", "http", 2, 2);
         Mod m2 = new Mod("JourneyMap", "v2", "http", "http", 0, 0);
         Mod m3 = new Mod("ChocoCraft", "v0.59.213", "http", "http", 1, 1);
