@@ -19,7 +19,6 @@ package mc.modpack.builder.terminal;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import mc.modpack.builder.Logger;
 import mc.modpack.builder.Modpack;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
