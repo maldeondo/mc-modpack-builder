@@ -19,6 +19,8 @@ package mc.modpack.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import mc.modpack.builder.data.Mod;
+import mc.modpack.builder.data.Modpack;
 import mc.modpack.builder.terminal.Table;
 import mc.modpack.builder.terminal.TerminalUtils;
 

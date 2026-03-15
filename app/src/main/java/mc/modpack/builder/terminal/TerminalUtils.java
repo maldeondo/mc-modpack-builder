@@ -19,12 +19,13 @@ package mc.modpack.builder.terminal;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import mc.modpack.builder.Modpack;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
+
+import mc.modpack.builder.data.Modpack;
 
 public class TerminalUtils {
     private Terminal jlineTerminal;
