@@ -14,9 +14,11 @@
 *  limitations under the License.
 */
 
-package mc.modpack.builder;
+package mc.modpack.builder.data;
 
 import java.util.ArrayList;
+
+import mc.modpack.builder.Utils;
 
 public class Modpack {
     private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
