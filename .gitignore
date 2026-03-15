@@ -8,3 +8,6 @@ app/build
 
 # Own
 .vscode/
+
+#Intellij
+.idea

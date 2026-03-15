@@ -15,7 +15,7 @@
 */
 
 
-package mc.modpack.builder;
+package mc.modpack.builder.data;
 
 public class Mod {
 

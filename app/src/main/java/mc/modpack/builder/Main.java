@@ -16,20 +16,13 @@
 
 package mc.modpack.builder;
 
-import java.io.File;
-import java.io.FileWriter;
-
-import java.io.PrintWriter;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
-import org.jline.utils.InfoCmp.Capability;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import mc.modpack.builder.data.Mod;
+import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.terminal.Table;
+import mc.modpack.builder.terminal.TerminalUtils;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -51,10 +44,11 @@ public class Main {
         Mod m12 = new Mod("Twilight Forest", "v0.59.213", "http", "http", 1, 1);
 
         Modpack modpack = new Modpack();
+        Table table = new Table(modpack);
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
 
-        TerminalUtils term = new TerminalUtils(modpack);
+        TerminalUtils term = new TerminalUtils(modpack, table);
 
         boolean running = true;
 
