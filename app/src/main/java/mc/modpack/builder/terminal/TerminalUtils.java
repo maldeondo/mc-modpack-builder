@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import mc.modpack.builder.Logger;
-import mc.modpack.builder.Mod;
 import mc.modpack.builder.Modpack;
-import mc.modpack.builder.Utils;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
@@ -31,125 +29,44 @@ import org.jline.utils.InfoCmp.Capability;
 
 public class TerminalUtils {
     private Terminal jlineTerminal;
-    private Modpack modpack;
-    private Logger logger;
     private Table table;
 
     private int height;
-    private int startScrollingIndex;
-    private int endScrollingIndex;
 
-    private int selected;
-
-    public TerminalUtils(Modpack modpack, Table table, Logger logger) throws IOException {
-        this.logger = logger;
+    public TerminalUtils(Modpack modpack, Table table) throws IOException {
         this.table = table;
+        height = 0;
 
         this.jlineTerminal = TerminalBuilder.builder().system(true).build();
         jlineTerminal.enterRawMode();
-
-        this.modpack = modpack;
-
-        height = Math.min(table.getPackLength() + 1, jlineTerminal.getHeight() - 4);
-        startScrollingIndex = 0;
-        endScrollingIndex = Math.min(height, table.getPackLength());
-        table.setTableHeight(height +1);
 
         jlineTerminal.puts(Capability.cursor_invisible);
         jlineTerminal.flush();
     }
 
-    // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
-    private static final String tableFormat(int[] longestChars) {
-        return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
-    }
-
-    // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
-    private static final String tableSeparator(int[] longestChars) {
-        return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
-    }
-
-    private void resize() {
-        int modpackLength = table.getPackLength();
-        if (height != Math.min(modpackLength, jlineTerminal.getHeight() - 4)) {
-            int lastHeight = height;
-            height = Math.min(modpackLength, jlineTerminal.getHeight() - 4);
-            table.setTableHeight(height + 1);
-        }
-        
-        if (selected > endScrollingIndex) {
-            startScrollingIndex++;
-            endScrollingIndex++;
-
-        } else if (selected < startScrollingIndex) {
-            startScrollingIndex--;
-            endScrollingIndex--;
-        }
-    }
-
     public void moveUp() {
-        if (selected > 0) selected--;
         table.moveUp();
     }
 
     public void moveDown() {
-        if (selected < modpack.getModNum() - 1) selected++;
         table.moveDown();
     }
 
     public void writeModpack() throws Exception {
-        int[] longestChars = modpack.getLongestChars();
         PrintWriter writer = jlineTerminal.writer();
 
-        resize();
+        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 4);
 
-        String dynamicTableFormat = tableFormat(longestChars);
-
-        writer.print(String.format(
-            dynamicTableFormat, 
-            "",
-            "Mod",
-            "Version",
-            "Type",
-            "Status",
-            ""
-        ));
-
-        writer.print(tableSeparator(longestChars));
-
-        for(int i=0; i<table.getTableHeight(); i++) {
-            writer.print(table.getLine(i, dynamicTableFormat));
+        if (newHeight != height) {
+            table.resize(newHeight);
+            height = newHeight;
         }
 
-        /*
-        for (int i = startScrollingIndex; i < selected; i++) writer.print(buildModLine(i, dynamicTableFormat));
+        writer.print(table.getFullTable());
 
-        writer.print(buildModLine(selected, "\u001B[2m\u001B[1m" + dynamicTableFormat + "\u001B[0m"));
-
-        for (int i = selected + 1; i <= endScrollingIndex; i++) {
-            writer.print(i);
-            writer.print(buildModLine(i, dynamicTableFormat));
-        }
-        */
         writer.flush();
     }
 
-    private String buildModLine(int index, String table) throws Exception {
-        StringBuilder block = new StringBuilder();
-        Mod temp = modpack.getMod(index);
-
-        block.append(String.format(
-            table,
-            String.valueOf(index + 1),
-            temp.getName(),
-            temp.getVersion(),
-            Utils.clientTypeFormat(temp.getModType()),
-            Utils.clientStatusFormat(temp.getModStatus()),
-            ""
-        ));
-
-        return block.toString();
-    }
 
     public String readMovement() throws IOException {
         NonBlockingReader reader = jlineTerminal.reader();

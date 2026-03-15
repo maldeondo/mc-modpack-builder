@@ -63,7 +63,16 @@ public class Utils {
         return (number >= 0 && number <= max);
     }
 
-    //Table.java CONSTANTS
+    // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
+    public static final String tableFormat(int[] longestChars) {
+        return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
+    }
+
+    // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
+    public static final String tableSeparator(int[] longestChars) {
+        return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
+    }
+
     
     public static final int LONGEST_NAME_INDEX = 0;
     public static final int LONGEST_VERSION_INDEX = 1;
