@@ -141,19 +141,19 @@ public class Table {
         StringBuilder block = new StringBuilder();
 
         for (int i = startingPos; i < selected; i++) {
-            block.append(getLine(i, format));    
+            block.append(getLine(i, format, ""));    
         }
 
-        block.append(getLine(selected, "\u001B[2m\u001B[1m" + format + "\u001B[0m"));
+        block.append(getLine(selected, "\u001B[2m\u001B[1m" + format + "\u001B[0m", " <"));
 
         for (int i = selected + 1; i <= endingPos; i++) {
-            block.append(getLine(i, format));
+            block.append(getLine(i, format, ""));
         }
 
         return block.toString();
     }
 
-    private String getLine(int index, String format) throws Exception{
+    private String getLine(int index, String format, String rightChar) throws Exception{
         Mod mod = modpack.getMod(index);
 
         return String.format(
@@ -163,7 +163,7 @@ public class Table {
             mod.getVersion(),
             Utils.clientTypeFormat(mod.getModType()),
             Utils.clientStatusFormat(mod.getModStatus()),
-            ""
+            rightChar
         );
     }
 }
