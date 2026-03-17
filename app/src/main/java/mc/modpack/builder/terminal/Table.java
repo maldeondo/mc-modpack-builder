@@ -49,6 +49,10 @@ public class Table {
         return startingPos;
     }
 
+    public int getEndingPos() {
+        return endingPos;
+    }
+
     public int getTableHeight() {
         return height;
     }
@@ -87,11 +91,7 @@ public class Table {
         if (newHeight > height) scaleUp(difference);
         else scaleDown(difference);
 
-        setHeight(newHeight);
-    }
-
-    private void setHeight(int newHeight) {
-        this.height = newHeight;
+        height = newHeight;
     }
 
     private void scaleUp(int difference) {
@@ -140,15 +140,11 @@ public class Table {
     private String getBlock(String format) throws Exception {
         StringBuilder block = new StringBuilder();
 
-        for (int i = startingPos; i < selected; i++) {
-            block.append(getLine(i, format, ""));    
-        }
+        for (int i = startingPos; i < selected; i++) block.append(getLine(i, format, ""));
 
         block.append(getLine(selected, "\u001B[2m\u001B[1m" + format + "\u001B[0m", " <"));
 
-        for (int i = selected + 1; i <= endingPos; i++) {
-            block.append(getLine(i, format, ""));
-        }
+        for (int i = selected + 1; i <= endingPos; i++) block.append(getLine(i, format, ""));
 
         return block.toString();
     }
@@ -161,8 +157,8 @@ public class Table {
             String.valueOf(index + 1),
             mod.getName(),
             mod.getVersion(),
-            Utils.clientTypeFormat(mod.getModType()),
-            Utils.clientStatusFormat(mod.getModStatus()),
+            Utils.modTypeFormat(mod.getModType()),
+            Utils.modStatusFormat(mod.getModStatus()),
             rightChar
         );
     }
