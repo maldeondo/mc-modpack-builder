@@ -6,6 +6,9 @@ build
 app/bin
 app/build
 
+# Ignore Gradle logs
+*.log
+
 # Own
 .vscode/
 
