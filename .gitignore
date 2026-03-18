@@ -12,5 +12,9 @@ app/build
 # Own
 .vscode/
 
+# DO NOT REMOVE
+.env
+.env/
+
 #Intellij
 .idea
