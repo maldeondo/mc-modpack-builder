@@ -27,13 +27,13 @@ import org.jline.utils.InfoCmp.Capability;
 
 import mc.modpack.builder.data.Modpack;
 
-public class TerminalUtils {
+public class TUI {
     private Terminal jlineTerminal;
     private Table table;
 
     private int height;
 
-    public TerminalUtils(Modpack modpack, Table table) throws IOException {
+    public TUI(Modpack modpack, Table table) throws IOException {
         this.table = table;
         height = 0;
 

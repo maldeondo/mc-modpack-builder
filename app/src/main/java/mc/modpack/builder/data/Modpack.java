@@ -78,8 +78,7 @@ public class Modpack {
     public void addMod(Mod mod) { this.addMod(mod, modNum); }
 
     public void addModList(ArrayList<Mod> modList) {
-        for (Mod mod: modList) 
-            addMod(mod);
+        for (Mod mod: modList) addMod(mod);
     }
 
     public void replaceModList(ArrayList<Mod> modList) {
