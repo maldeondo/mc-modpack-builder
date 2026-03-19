@@ -23,6 +23,8 @@ import java.io.FileWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import mc.modpack.builder.data.Modpack;
+
 public class Retrieve {
     public static void main(String[] args) throws Exception {
         Modpack retrieve;

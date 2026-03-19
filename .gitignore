@@ -6,5 +6,15 @@ build
 app/bin
 app/build
 
-# Own
+# Ignore Gradle logs
+*.log
+
+### Own ###
 .vscode/
+
+## DO NOT REMOVE ##
+.env
+.env/
+
+#Intellij
+.idea
