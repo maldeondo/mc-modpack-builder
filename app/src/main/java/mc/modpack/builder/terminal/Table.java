@@ -112,6 +112,8 @@ public class Table {
         for (; difference > 0; difference--) startingPos++;
     }
 
+    // main mod table methods
+
     public String getFullTable() throws Exception {
         StringBuilder block = new StringBuilder();
         String dynamicTableFormat = Utils.tableFormat(modpack.getLongestChars());
@@ -161,5 +163,11 @@ public class Table {
             Utils.modStatusFormat(mod.getModStatus()),
             rightChar
         );
+    }
+
+    // footer "menu" methods
+
+    public static String getFooter() {
+        return "";
     }
 }

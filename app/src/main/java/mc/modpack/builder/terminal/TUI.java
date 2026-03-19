@@ -55,7 +55,7 @@ public class TUI {
     public void writeModpack() throws Exception {
         PrintWriter writer = jlineTerminal.writer();
 
-        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 4);
+        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 5);
 
         if (newHeight != height) {
             table.resize(newHeight);
