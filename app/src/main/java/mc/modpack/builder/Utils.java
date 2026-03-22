@@ -80,4 +80,5 @@ public class Utils {
     public static final int MINIMUM_NAME_LENGHT = 3;
     public static final int MINIMUM_VERSION_LENGHT = 7;
 
+    public static final int FOOTER_SEPARATION_LINES = 0;
 }

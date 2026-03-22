@@ -114,7 +114,7 @@ public class Table {
 
     // main mod table methods
 
-    public String getFullTable() throws Exception {
+    public String getFullTable() {
         StringBuilder block = new StringBuilder();
         String dynamicTableFormat = Utils.tableFormat(modpack.getLongestChars());
         String dynamicTableSeparator = Utils.tableSeparator(modpack.getLongestChars());
@@ -139,7 +139,7 @@ public class Table {
         );
     }
 
-    private String getBlock(String format) throws Exception {
+    private String getBlock(String format) {
         StringBuilder block = new StringBuilder();
 
         for (int i = startingPos; i < selected; i++) block.append(getLine(i, format, ""));
@@ -151,7 +151,7 @@ public class Table {
         return block.toString();
     }
 
-    private String getLine(int index, String format, String rightChar) throws Exception{
+    private String getLine(int index, String format, String rightChar) {
         Mod mod = modpack.getMod(index);
 
         return String.format(
@@ -168,6 +168,6 @@ public class Table {
     // footer "menu" methods
 
     public static String getFooter() {
-        return "";
+        return "[S]ave [Q]uit";
     }
 }

@@ -25,6 +25,7 @@ import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
 
+import mc.modpack.builder.Utils;
 import mc.modpack.builder.data.Modpack;
 
 public class TUI {
@@ -52,10 +53,10 @@ public class TUI {
         table.moveDown();
     }
 
-    public void writeModpack() throws Exception {
+    public void writeModpack() {
         PrintWriter writer = jlineTerminal.writer();
 
-        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 5);
+        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 4 - Utils.FOOTER_SEPARATION_LINES);
 
         if (newHeight != height) {
             table.resize(newHeight);
@@ -63,6 +64,9 @@ public class TUI {
         }
 
         writer.print(table.getFullTable());
+
+        writer.print(Utils.repeat(Utils.FOOTER_SEPARATION_LINES, "\n"));
+        writer.print(Table.getFooter());
 
         writer.flush();
     }
@@ -74,11 +78,11 @@ public class TUI {
 
         if ((num = reader.read()) != 27) return String.valueOf((char) num);
         else if ((num = reader.read(10)) != 10) return switch (reader.read(10)) {
-                case 65 -> "UP";
-                case 66 -> "DOWN";
-                case 67 -> "RIGHT";
-                case 68 -> "LEFT";
-                default -> "UNKNOWN";
+            case 65 -> "UP";
+            case 66 -> "DOWN";
+            case 67 -> "RIGHT";
+            case 68 -> "LEFT";
+            default -> "UNKNOWN";
         };
         else return "ESC";
     }
