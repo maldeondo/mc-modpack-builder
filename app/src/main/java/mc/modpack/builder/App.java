@@ -22,18 +22,20 @@ import java.util.List;
 public class App {
     public static final String HELP_MSG = String.format(
         "Usage: java -jar mc-modpack-builder-%s.jar [OPTION]\n" +
-        "\t-d, --debug -> Show detailed developer-oriented errors\n" +
-        "\t-h, --help -> Show this message and exit\n" + 
-        "\t-v, --version -> Show running version and exit\n" +
+        "   -d, --debug -> Show detailed developer-oriented errors\n" +
+        "   -h, --help -> Show this message and exit\n" + 
+        "   -v, --version -> Show running version and exit\n" +
         "\n" +
         "More info can be found at <https://github.com/maldeondo/mc-modpack-builder>\n",
         Utils.VERSION
     );
 
-    public static final String VER_MSG = 
+    public static final String VER_MSG = String.format(
         "mc-modpack-manager %s\n" +
         "Copyright (c) 2026 Mario Aldeondo (@maldeondo)\n" +
-        "<https://github.com/maldeondo/mc-modpack-builder>\n";
+        "<https://github.com/maldeondo/mc-modpack-builder>\n",
+        Utils.VERSION
+    );
 
     public static final String ERR_MSG = 
         "mc-modpack-builder: %s\n" +
@@ -42,15 +44,27 @@ public class App {
     public static void main(String[] args) {
         List<String> argsList = Arrays.asList(args);
 
-        argsList.contains("hola");
-        try {
-            Main.run();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (!checkFlags(argsList)) {
+            try {
+                Main.run();
+            } catch (Exception ex) {
+                if (checkDebug(argsList)) ex.printStackTrace();
+                else System.out.printf(ERR_MSG, ex.getMessage());
+            }
         }
     }
 
-    private static void checkFlags(List<String> argsList) {
-        
+    private static boolean checkFlags(List<String> argsList) {
+        boolean flagIsPresent = false;
+
+        if (argsList.contains("-h") || argsList.contains("--help")) System.out.print(HELP_MSG);
+        else if (argsList.contains("-v") || argsList.contains("--version")) System.out.print(VER_MSG);
+        else flagIsPresent = true;
+
+        return flagIsPresent;
+    }
+
+    private static boolean checkDebug(List<String>argsList) {
+        return (argsList.contains("-d") || argsList.contains("--debug")); 
     }
 }
