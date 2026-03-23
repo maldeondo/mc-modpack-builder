@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -62,12 +62,16 @@ public class Table {
     }
 
     public void moveUp() {
-        if (selected > 0) selected--;
+        //selected-- if next position (selected - 1) is >= 0
+        if (Utils.validIndex(selected - 1)) selected--;
+
         scroll();
     }
 
     public void moveDown() {
-        if (selected < modpack.getModNum() - 1) selected++;
+        //selected++ if next position (selected + 1) is <= modpack.getModNum()
+        if (Utils.validIndex(selected + 1, modpack.getModNum() - 1)) selected++;
+        
         scroll();
     }
 
@@ -142,9 +146,9 @@ public class Table {
     private String getBlock(String format) {
         StringBuilder block = new StringBuilder();
 
-        for (int i = startingPos; i < selected; i++) block.append(getLine(i, format, ""));
+        for (int i = startingPos; i < selected; i++) block.append(getLine(i, "\u001B[1m" + format + "\u001B[0m", " *"));
 
-        block.append(getLine(selected, "\u001B[2m\u001B[1m" + format + "\u001B[0m", " <"));
+        block.append(getLine(selected, "\u001B[2m" + format + "\u001B[0m", " <"));
 
         for (int i = selected + 1; i <= endingPos; i++) block.append(getLine(i, format, ""));
 

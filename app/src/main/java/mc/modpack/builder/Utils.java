@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 package mc.modpack.builder;
 
 public class Utils {
+    public static final String VERSION = "v0";
+
     public static final String WORKING_DIR = System.getProperty("user.home") + "/.config/mc-modpack-builder/";
 
     public static String fileFromName(String name) {
@@ -63,6 +65,10 @@ public class Utils {
         return (number >= 0 && number <= max);
     }
 
+    public static final boolean validIndex(int number) {
+        return validIndex(number, number);
+    }
+
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
     public static final String tableFormat(int[] longestChars) {
         return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
@@ -73,7 +79,6 @@ public class Utils {
         return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
     }
 
-    
     public static final int LONGEST_NAME_INDEX = 0;
     public static final int LONGEST_VERSION_INDEX = 1;
 
