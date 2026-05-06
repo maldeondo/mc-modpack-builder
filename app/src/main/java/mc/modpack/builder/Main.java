@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -22,14 +22,10 @@ import java.util.List;
 import mc.modpack.builder.data.Mod;
 import mc.modpack.builder.data.Modpack;
 import mc.modpack.builder.terminal.Table;
-import mc.modpack.builder.terminal.TerminalUtils;
+import mc.modpack.builder.terminal.TUI;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        run();
-    }
-
-    private static void run() throws Exception {
+    public static void run(String apiKey) throws Exception {
         Mod m1 = new Mod("JEI", "v1", "http", "http", 2, 2);
         Mod m2 = new Mod("JourneyMap", "v2", "http", "http", 0, 0);
         Mod m3 = new Mod("ChocoCraft", "v0.59.213", "http", "http", 1, 1);
@@ -48,7 +44,7 @@ public class Main {
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
 
-        TerminalUtils term = new TerminalUtils(modpack, table);
+        TUI term = new TUI(modpack, table);
 
         boolean running = true;
 

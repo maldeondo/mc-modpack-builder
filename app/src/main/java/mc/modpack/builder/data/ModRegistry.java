@@ -14,30 +14,34 @@
 *  limitations under the License.
 */
 
-package mc.modpack.builder;
+package mc.modpack.builder.data;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.UUID;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+public class ModRegistry {
+    private HashMap<UUID, Mod> modList;
+    private int modNum;
 
-import mc.modpack.builder.data.Modpack;
+    public ModRegistry() {}
 
-public class Retrieve {
-    public static void main(String[] args) throws Exception {
-        Modpack retrieve;
-        Gson gson = new Gson();
+    public int getModNum() {
+        return modNum;
+    }
 
-        FileReader reader = new FileReader(new File(Utils.WORKING_DIR + "modpack.json"));
-    
-        retrieve = gson.fromJson(reader, Modpack.class);
+    public Mod getModData(UUID uuid) {
+        return modList.get(uuid);
+    }
 
+    public void setModList(HashMap<UUID, Mod> modList) {
+        if (modList != null) this.modList = modList;
+    }
 
+    public void addMod(Mod mod) {
+        modList.put(mod.getID(), mod);
+    }
 
-        System.out.println(retrieve.getFile());
-
-        reader.close();
+    public void removeMod(Mod mod) {
+        modList.remove(mod.getID());
     }
 }

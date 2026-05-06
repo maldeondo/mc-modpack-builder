@@ -35,6 +35,8 @@ Clone the repo:
 Build fat-JAR using Gradle:
 - `./gradlew jar`
 
+> The .jar file will be located at app/build/libs/app.jar after the build process completes.
+
 ## Tech Stack
 
 - Language: Java
@@ -49,7 +51,7 @@ Build fat-JAR using Gradle:
 
 - Terminal I/O (TUI): [JLine-Terminal](https://mvnrepository.com/artifact/org.jline/jline-terminal)
 
-> Gradle handles all dependencies and build configuration. Project requirements and dependency versions can be found in the build.gradle file.
+> Gradle handles all dependencies and build configuration. Project requirements and dependency versions can be found in the `build.gradle` file.
 
 ## License
 

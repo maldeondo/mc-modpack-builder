@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,12 +17,14 @@
 package mc.modpack.builder.data;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import mc.modpack.builder.Utils;
 
 public class Modpack {
     private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
     private ArrayList<Mod> modList; // mod list
+    private ArrayList<Object> selectedModList;
     private int modNum = 0;
 
     private String name;
@@ -35,6 +37,10 @@ public class Modpack {
         }
 
         this.modList = modList;
+        this.selectedModList = new ArrayList<Object>();
+        selectedModList.add(true);
+        selectedModList.add(false);
+        System.out.println(UUID.randomUUID());
     }
 
     public Modpack(String name) { this(name, new ArrayList<Mod>()); }
@@ -44,8 +50,8 @@ public class Modpack {
     // GETTERS
 
     public Mod getMod(int index) throws IndexOutOfBoundsException {
-        if (!Utils.validIndex(index, modNum)) throw new IndexOutOfBoundsException();
-        else return modList.get(index);
+        if (Utils.validIndex(index, modNum)) return modList.get(index);
+        else throw new IndexOutOfBoundsException();
     }
 
     // GSON
@@ -78,8 +84,7 @@ public class Modpack {
     public void addMod(Mod mod) { this.addMod(mod, modNum); }
 
     public void addModList(ArrayList<Mod> modList) {
-        for (Mod mod: modList) 
-            addMod(mod);
+        for (Mod mod: modList) addMod(mod);
     }
 
     public void replaceModList(ArrayList<Mod> modList) {

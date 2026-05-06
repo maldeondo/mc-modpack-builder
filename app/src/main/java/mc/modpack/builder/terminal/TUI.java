@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -25,15 +25,16 @@ import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
 
+import mc.modpack.builder.Utils;
 import mc.modpack.builder.data.Modpack;
 
-public class TerminalUtils {
+public class TUI {
     private Terminal jlineTerminal;
     private Table table;
 
     private int height;
 
-    public TerminalUtils(Modpack modpack, Table table) throws IOException {
+    public TUI(Modpack modpack, Table table) throws IOException {
         this.table = table;
         height = 0;
 
@@ -52,10 +53,10 @@ public class TerminalUtils {
         table.moveDown();
     }
 
-    public void writeModpack() throws Exception {
+    public void writeModpack() {
         PrintWriter writer = jlineTerminal.writer();
 
-        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 4);
+        int newHeight = Math.min(table.getModpack().getModNum() - 1, jlineTerminal.getHeight() - 4 - Utils.FOOTER_SEPARATION_LINES);
 
         if (newHeight != height) {
             table.resize(newHeight);
@@ -63,6 +64,9 @@ public class TerminalUtils {
         }
 
         writer.print(table.getFullTable());
+
+        writer.print(Utils.repeat(Utils.FOOTER_SEPARATION_LINES, "\n"));
+        writer.print(Table.getFooter());
 
         writer.flush();
     }
@@ -74,11 +78,11 @@ public class TerminalUtils {
 
         if ((num = reader.read()) != 27) return String.valueOf((char) num);
         else if ((num = reader.read(10)) != 10) return switch (reader.read(10)) {
-                case 65 -> "UP";
-                case 66 -> "DOWN";
-                case 67 -> "RIGHT";
-                case 68 -> "LEFT";
-                default -> "UNKNOWN";
+            case 65 -> "UP";
+            case 66 -> "DOWN";
+            case 67 -> "RIGHT";
+            case 68 -> "LEFT";
+            default -> "UNKNOWN";
         };
         else return "ESC";
     }

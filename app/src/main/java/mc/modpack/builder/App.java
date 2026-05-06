@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -16,12 +16,72 @@
 
 package mc.modpack.builder;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Arrays;
+import java.util.List;
+
 public class App {
+    public static final String HELP_MSG = String.format(
+        "Usage: java -jar mc-modpack-builder-%s.jar [OPTION]\n" +
+        "   -d, --debug -> Show detailed developer-oriented errors\n" +
+        "   -h, --help -> Show this message and exit\n" + 
+        "   -v, --version -> Show running version and exit\n" +
+        "\n" +
+        "More info can be found at <https://github.com/maldeondo/mc-modpack-builder>\n",
+        Utils.VERSION
+    );
+
+    public static final String VER_MSG = String.format(
+        "mc-modpack-manager %s\n" +
+        "Copyright (c) 2026 Mario Aldeondo (@maldeondo)\n" +
+        "<https://github.com/maldeondo/mc-modpack-builder>\n",
+        Utils.VERSION
+    );
+
+    public static final String ERR_MSG = 
+        "mc-modpack-builder: %s\n" +
+        "Try -h or --help for more information.\n";
+
     public static void main(String[] args) {
-        try {
-            Main.main(args);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        List<String> argsList = Arrays.asList(args);
+
+        String apiKey = getAPIKey();
+
+        if (!checkFlags(argsList)) {
+            try {
+                Main.run(apiKey);
+            } catch (Exception ex) {
+                if (checkDebug(argsList)) ex.printStackTrace();
+                else System.out.printf(ERR_MSG, ex.getMessage());
+            }
         }
+    }
+
+    private static boolean checkFlags(List<String> argsList) {
+        boolean flagIsPresent = false;
+
+        if (argsList.contains("-h") || argsList.contains("--help")) System.out.print(HELP_MSG);
+        else if (argsList.contains("-v") || argsList.contains("--version")) System.out.print(VER_MSG);
+        else flagIsPresent = true;
+
+        return flagIsPresent;
+    }
+
+    private static boolean checkDebug(List<String>argsList) {
+        return (argsList.contains("-d") || argsList.contains("--debug")); 
+    }
+
+    private static String getAPIKey() {
+        String line = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(".env"));
+            line = reader.readLine();
+            reader.close();
+        } catch (Exception ex) {
+            System.out.println("NORMAL EXCEPTION");
+        } 
+
+        return line.split("=")[1];
     }
 }

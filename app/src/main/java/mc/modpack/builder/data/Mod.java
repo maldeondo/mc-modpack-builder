@@ -1,5 +1,5 @@
 /*
-*  Copyright 2026 Mario Aldeondo
+*  Copyright 2026 Mario Aldeondo (@maldeondo)
 *
 *  Licensed under the Apache License, Version 2.0 (the "License");
 *  you may not use this file except in compliance with the License.
@@ -17,11 +17,15 @@
 
 package mc.modpack.builder.data;
 
+import java.util.UUID;
+
 public class Mod {
 
     private String name;
     private String version;
     private String fileName;
+
+    private UUID uuid;
 
     private String eLink;
     private String dLink;
@@ -36,6 +40,8 @@ public class Mod {
         this.dLink = dLink;
         this.type = type;
         this.status = status;
+
+        this.uuid = UUID.randomUUID();
     }
     
     // GETTERS
@@ -47,6 +53,7 @@ public class Mod {
     public int getModType() { return this.type; }
     public int getModStatus() { return this.status; }
     public String getFileName() { return this.fileName; }
+    public UUID getID() { return uuid; }
 
     // SETTERS
 
