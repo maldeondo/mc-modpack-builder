@@ -5,6 +5,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class PetitionMaker {
     public static String BASE_URL = "https://api.curseforge.com/";
@@ -26,5 +28,30 @@ public class PetitionMaker {
 
         //Building the result
         return new PetitionResult(response.statusCode(), response.body(), response.headers());
+    }
+
+    public static boolean downloadMod(String url, String route) {
+        //Define the path for the file
+        Path target = Paths.get(route);
+
+        //Define the client
+        HttpClient client = HttpClient.newHttpClient();
+
+        //Define the request
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create("url"))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        //Try and get the file
+        try {
+            HttpResponse<Path> response = client.send(req, HttpResponse.BodyHandlers.ofFile(target));
+            System.out.println(response.statusCode());
+            return response.statusCode() == 200;
+        }
+        catch (IOException | InterruptedException e) {
+            return false;
+        }
     }
 }
