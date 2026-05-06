@@ -21,6 +21,7 @@ import java.util.List;
 
 import mc.modpack.builder.data.Mod;
 import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
 import mc.modpack.builder.terminal.TUI;
 
@@ -44,21 +45,8 @@ public class Main {
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
 
-        TUI term = new TUI(modpack, table);
+        NetworkManager manager = new NetworkManager(apiKey);
 
-        boolean running = true;
-
-        while (running) {
-            term.clean();
-            term.writeModpack();
-            switch (term.readMovement()) {
-                case "UP", "w": term.moveUp(); break;
-                case "DOWN", "s": term.moveDown(); break;
-                case "q", "Q": running = false; break;
-                default: break;
-            }
-        }
-
-        term.close();
+        manager.getModName("238222");
     }
 }

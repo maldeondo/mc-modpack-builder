@@ -48,7 +48,7 @@ public class App {
 
         String apiKey = getAPIKey();
 
-        if (!checkFlags(argsList)) {
+        if (checkFlags(argsList)) {
             try {
                 Main.run(apiKey);
             } catch (Exception ex) {
