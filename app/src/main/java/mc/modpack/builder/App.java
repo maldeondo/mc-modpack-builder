@@ -16,6 +16,8 @@
 
 package mc.modpack.builder;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,9 +46,11 @@ public class App {
     public static void main(String[] args) {
         List<String> argsList = Arrays.asList(args);
 
+        String apiKey = getAPIKey();
+
         if (!checkFlags(argsList)) {
             try {
-                Main.run();
+                Main.run(apiKey);
             } catch (Exception ex) {
                 if (checkDebug(argsList)) ex.printStackTrace();
                 else System.out.printf(ERR_MSG, ex.getMessage());
@@ -66,5 +70,13 @@ public class App {
 
     private static boolean checkDebug(List<String>argsList) {
         return (argsList.contains("-d") || argsList.contains("--debug")); 
+    }
+
+    private static String getAPIKey() {
+        BufferedReader reader = new BufferedReader(new FileReader(".env"));
+        String line = reader.readLine();
+        reader.close();
+
+        return line.split("=")[1];
     }
 }

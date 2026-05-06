@@ -25,7 +25,7 @@ import mc.modpack.builder.terminal.Table;
 import mc.modpack.builder.terminal.TUI;
 
 public class Main {
-    public static void run() throws Exception {
+    public static void run(String apiKey) throws Exception {
         Mod m1 = new Mod("JEI", "v1", "http", "http", 2, 2);
         Mod m2 = new Mod("JourneyMap", "v2", "http", "http", 0, 0);
         Mod m3 = new Mod("ChocoCraft", "v0.59.213", "http", "http", 1, 1);
