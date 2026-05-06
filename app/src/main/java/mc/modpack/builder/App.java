@@ -73,9 +73,14 @@ public class App {
     }
 
     private static String getAPIKey() {
-        BufferedReader reader = new BufferedReader(new FileReader(".env"));
-        String line = reader.readLine();
-        reader.close();
+        String line = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(".env"));
+            line = reader.readLine();
+            reader.close();
+        } catch (Exception ex) {
+            System.out.println("NORMAL EXCEPTION");
+        } 
 
         return line.split("=")[1];
     }
