@@ -20,10 +20,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import mc.modpack.builder.enums.ModLoader;
+
 public class Utils {
     public static final String VERSION = "v0";
 
     public static final String WORKING_DIR = System.getProperty("user.home") + "/.config/mc-modpack-builder/";
+    public static final String MOD_DIR = WORKING_DIR + "modregistry/";
 
     public static String fileFromName(String name) {
         return String.format("%s%s.json", WORKING_DIR, name);
@@ -54,6 +57,26 @@ public class Utils {
             case 2 -> "A+P";
             case 3 -> "C";
             default -> "";
+        };
+    }
+
+    public static ModLoader getModLoaderByID(int curseForgeID) {
+        return switch (curseForgeID) {
+            case 0 -> ModLoader.FORGE;
+            case 1 -> ModLoader.NEOFORGE;
+            case 2 -> ModLoader.FABRIC;
+            case 3 -> ModLoader.QUILT;
+            default -> null;
+        };
+    }
+
+    public static ModLoader getModLoaderByName(String curseForgeName) {
+        return switch (curseForgeName.toUpperCase()) {
+            case "FORGE" -> ModLoader.FORGE;
+            case "NEOFORGE" -> ModLoader.NEOFORGE;
+            case "FABRIC" -> ModLoader.FABRIC;
+            case "QUILT" -> ModLoader.QUILT;
+            default -> null;
         };
     }
 
