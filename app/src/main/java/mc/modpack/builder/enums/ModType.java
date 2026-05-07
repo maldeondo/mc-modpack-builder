@@ -19,7 +19,8 @@ package mc.modpack.builder.enums;
 public enum ModType {
     CLIENT("C"),
     SERVER("S"),
-    CLIENT_SERVER("C+S");
+    CLIENTandSERVER("C+S"),
+    UNDEFINED("-");
 
     private String shortVersion;
 

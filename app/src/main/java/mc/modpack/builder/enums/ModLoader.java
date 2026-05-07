@@ -17,18 +17,33 @@
 package mc.modpack.builder.enums;
 
 public enum ModLoader {
-    FORGE(0),
-    NEOFORGE(1),
-    FABRIC(2),
-    QUILT(3);
+    FORGE((byte) 0),
+    NEOFORGE((byte) 1),
+    FABRIC((byte) 2),
+    QUILT((byte) 3),
+    UNKNOWN((byte) -1);
 
-    private final byte ID;
+    private final byte curseForgeID;
 
-    ModLoader(Integer ID) {
-        this.ID = ID.byteValue();
+    ModLoader(byte curseForgeID) {
+        this.curseForgeID = curseForgeID;
     }
 
-    public int getID() {
-        return Byte.toUnsignedInt(ID);
+    public int getCurseForgeID() {
+        return (int) curseForgeID;
+    }
+
+    public boolean valid() {
+        return (this != null && this != UNKNOWN);
+    }
+
+    public static ModLoader fromCurseForgeID(int curseForgeID) {
+        return switch (curseForgeID) {
+            case 0 -> ModLoader.FORGE;
+            case 1 -> ModLoader.NEOFORGE;
+            case 2 -> ModLoader.FABRIC;
+            case 3 -> ModLoader.QUILT;
+            default -> ModLoader.UNKNOWN;
+        };
     }
 }
