@@ -16,32 +16,20 @@
 
 package mc.modpack.builder.data;
 
-import java.util.HashMap;
-import java.util.UUID;
+public class ModFile {
+    private String version;
+    private String fileName;
 
-public class ModRegistry {
-    private HashMap<Integer, RMod> modList;
-    private int modNum;
-
-    public ModRegistry() {}
-
-    public int getModNum() {
-        return modNum;
+    public ModFile(String version, String fileName) {
+        this.version = version;
+        this.fileName = fileName;
     }
 
-    public RMod getModData(int id) {
-        return modList.get(id);
+    public String getVersion() {
+        return version;
     }
 
-    public void setModList(HashMap<Integer, RMod> modList) {
-        if (modList != null) this.modList = modList;
-    }
-
-    public void addMod(RMod mod) {
-        modList.put(mod.getID(), mod);
-    }
-
-    public void removeMod(RMod mod) {
-        modList.remove(mod.getID());
+    public String fileName() {
+        return fileName();
     }
 }

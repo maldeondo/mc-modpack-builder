@@ -16,6 +16,10 @@
 
 package mc.modpack.builder;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Utils {
     public static final String VERSION = "v0";
 
@@ -28,7 +32,7 @@ public class Utils {
     public static final int CLIENT_MOD = 0;
     public static final int SERVER_MOD = 1;
     public static final int CLIENT_AND_SERVER_MOD = 2;
-    
+
     public static String modTypeFormat(int type) {
         return switch (type) {
             case 0 -> "C";
@@ -77,6 +81,17 @@ public class Utils {
     // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
     public static final String tableSeparator(int[] longestChars) {
         return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
+    }
+
+    public static String getAPIKey() throws IOException {
+        String line;
+
+        BufferedReader reader = new BufferedReader(new FileReader(".env"));
+
+        while ((line = reader.readLine()) != null) if (line.split("=")[0].equals("API_KEY")) return line.split("=")[1];
+        reader.close();
+
+        return null;
     }
 
     public static final int LONGEST_NAME_INDEX = 0;

@@ -14,7 +14,6 @@
 *  limitations under the License.
 */
 
-
 package mc.modpack.builder.data;
 
 import java.util.UUID;
@@ -43,7 +42,7 @@ public class Mod {
 
         this.uuid = UUID.randomUUID();
     }
-    
+
     // GETTERS
 
     public String getName() { return this.name; }
