@@ -65,7 +65,7 @@ public class TUI {
 
         writer.print(table.getFullTable());
 
-        writer.print(Utils.repeat(Utils.FOOTER_SEPARATION_LINES, "\n"));
+        writer.print("\n".repeat(Utils.FOOTER_SEPARATION_LINES));
         writer.print(Table.getFooter());
 
         writer.flush();
@@ -88,7 +88,7 @@ public class TUI {
     }
 
     public void clean() {
-        jlineTerminal.writer().print("\033[H"); 
+        jlineTerminal.writer().print("\033[H");
         jlineTerminal.writer().flush();
         jlineTerminal.puts(Capability.clr_eos);
     }

@@ -20,8 +20,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import mc.modpack.builder.enums.ModLoader;
-
 public class Utils {
     public static final String VERSION = "v0";
 
@@ -60,50 +58,33 @@ public class Utils {
         };
     }
 
-    public static ModLoader getModLoaderByID(int curseForgeID) {
-        return switch (curseForgeID) {
-            case 0 -> ModLoader.FORGE;
-            case 1 -> ModLoader.NEOFORGE;
-            case 2 -> ModLoader.FABRIC;
-            case 3 -> ModLoader.QUILT;
-            default -> null;
-        };
-    }
-
-    public static ModLoader getModLoaderByName(String curseForgeName) {
-        return switch (curseForgeName.toUpperCase()) {
-            case "FORGE" -> ModLoader.FORGE;
-            case "NEOFORGE" -> ModLoader.NEOFORGE;
-            case "FABRIC" -> ModLoader.FABRIC;
-            case "QUILT" -> ModLoader.QUILT;
-            default -> null;
-        };
-    }
-
-    public static final String repeat(int amount, String text) {
-        return new String(new char[amount]).replace("\0", text);
-    }
-
-    public static final boolean validString(String data) {
+    public static boolean validString(String data) {
         return (data != null && data != "");
     }
 
-    public static final boolean validIndex(int number, int max) {
+    public static String addJarExtension(String name) {
+        if (validString(name) && name.length() > 4) {
+            int length = name.length();
+            return (name.substring(length - 4, length).equals(".jar")) ? name : name + ".jar";
+        } else return null;
+    }
+
+    public static boolean validIndex(int number, int max) {
         return (number >= 0 && number <= max);
     }
 
-    public static final boolean validIndex(int number) {
+    public static boolean validIndex(int number) {
         return validIndex(number, number);
     }
 
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
-    public static final String tableFormat(int[] longestChars) {
+    public static String tableFormat(int[] longestChars) {
         return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
     }
 
     // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
-    public static final String tableSeparator(int[] longestChars) {
-        return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
+    public static String tableSeparator(int[] longestChars) {
+        return "----|" + "-".repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2) + "|" + "-".repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2) + "|------|--------|\n";
     }
 
     public static String getAPIKey() throws IOException {
