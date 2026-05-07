@@ -17,31 +17,33 @@
 package mc.modpack.builder.data;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class ModRegistry {
-    private HashMap<Integer, RMod> modList;
-    private int modNum;
+    private HashMap<Integer, RMod> modMap;
 
     public ModRegistry() {}
 
     public int getModNum() {
-        return modNum;
+        return modMap.size();
     }
 
     public RMod getModData(int id) {
-        return modList.get(id);
+        return modMap.get(id);
     }
 
-    public void setModList(HashMap<Integer, RMod> modList) {
-        if (modList != null) this.modList = modList;
+    public void setModMap(HashMap<Integer, RMod> modList) {
+        if (modList != null) this.modMap = modList;
     }
 
-    public void addMod(RMod mod) {
-        modList.put(mod.getID(), mod);
+    public boolean addMod(RMod rMod) {
+        // rMod already present (not replaced) -> false
+        // rMod not present (added) -> true
+        return (modMap.putIfAbsent(rMod.getModCurseForgeID(), rMod) == null) ? true : false;
     }
 
-    public void removeMod(RMod mod) {
-        modList.remove(mod.getID());
+    public boolean removeMod(RMod rMod) {
+        // rMod did not exist (not removed) -> false
+        // rMod did exist (removed) -> true
+        return (modMap.remove(rMod.getModCurseForgeID()) == null) ? false : true;
     }
 }

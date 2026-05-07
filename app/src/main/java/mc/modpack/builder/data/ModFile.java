@@ -16,20 +16,57 @@
 
 package mc.modpack.builder.data;
 
+import mc.modpack.builder.Utils;
+import mc.modpack.builder.enums.ModLoader;
+
 public class ModFile {
-    private String version;
+    private String modVersion;
+    private String mcVersion;
+
     private String fileName;
+    private ModLoader modLoader;
 
-    public ModFile(String version, String fileName) {
-        this.version = version;
+    public ModFile(String mcVersion, String modVersion, String fileName, ModLoader modLoader) {
+        this.mcVersion = mcVersion;
+        this.modVersion = modVersion;
         this.fileName = fileName;
+        this.modLoader = (modLoader != null) ? modLoader : ModLoader.UNKNOWN;
     }
 
-    public String getVersion() {
-        return version;
+    public ModFile(String mcVersion, String modVersion, String fileName, int modLoaderCurseForgeID) {
+        this(mcVersion, modVersion, fileName, ModLoader.fromCurseForgeID(modLoaderCurseForgeID));
     }
 
-    public String fileName() {
-        return fileName();
+    public ModFile(String mcVersion, String modVersion, String fileName) {
+        this(mcVersion, modVersion, fileName, ModLoader.UNKNOWN);
     }
+
+    public String getMCVersion() {
+        return mcVersion;
+    }
+
+    public String getModVersion() {
+        return modVersion;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getPath() {
+        return Utils.MOD_DIR + fileName;
+    }
+
+    public ModLoader getModLoader() {
+        return modLoader;
+    }
+
+    public void setModLoader(ModLoader modLoader) {
+        if (modLoader.valid()) this.modLoader = modLoader;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = Utils.addJarExtension(fileName);
+    }
+
 }

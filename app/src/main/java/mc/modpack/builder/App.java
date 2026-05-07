@@ -16,8 +16,6 @@
 
 package mc.modpack.builder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,7 +64,7 @@ public class App {
         return flagIsPresent;
     }
 
-    private static boolean checkDebug(List<String>argsList) {
+    private static boolean checkDebug(List<String> argsList) {
         return (argsList.contains("-d") || argsList.contains("--debug"));
     }
 }
