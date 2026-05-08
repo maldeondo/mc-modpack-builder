@@ -26,7 +26,7 @@ import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
 
 import mc.modpack.builder.Utils;
-import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.data.ModPack;
 
 public class TUI {
     private Terminal jlineTerminal;
@@ -34,7 +34,7 @@ public class TUI {
 
     private int height;
 
-    public TUI(Modpack modpack, Table table) throws IOException {
+    public TUI(ModPack modpack, Table table) throws IOException {
         this.table = table;
         height = 0;
 

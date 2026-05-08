@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mc.modpack.builder.data.Mod;
-import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.data.ModPack;
 import mc.modpack.builder.terminal.Table;
 import mc.modpack.builder.terminal.TUI;
 
@@ -39,7 +39,7 @@ public class Main {
         Mod m11 = new Mod("DecoCraft", "v0.59.213", "http", "http", 1, 1);
         Mod m12 = new Mod("Twilight Forest", "v0.59.213", "http", "http", 1, 1);
 
-        Modpack modpack = new Modpack();
+        ModPack modpack = new ModPack();
         Table table = new Table(modpack);
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));

@@ -23,16 +23,16 @@ import java.io.FileWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.data.ModPack;
 
 public class Retrieve {
     public static void main(String[] args) throws Exception {
-        Modpack retrieve;
+        ModPack retrieve;
         Gson gson = new Gson();
 
         FileReader reader = new FileReader(new File(Utils.WORKING_DIR + "modpack.json"));
-    
-        retrieve = gson.fromJson(reader, Modpack.class);
+
+        retrieve = gson.fromJson(reader, ModPack.class);
 
 
 
