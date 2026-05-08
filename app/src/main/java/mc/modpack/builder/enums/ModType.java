@@ -35,4 +35,13 @@ public enum ModType {
     public String getShortVersion() {
         return shortVersion;
     }
+
+    public static ModType fromShortVersion(String shortVersion) {
+        return switch (shortVersion) {
+            case "C" -> CLIENT;
+            case "S" -> SERVER;
+            case "C+S" -> CLIENTandSERVER;
+            default -> UNDEFINED;
+        };
+    }
 }
