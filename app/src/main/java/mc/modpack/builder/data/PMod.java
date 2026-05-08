@@ -17,5 +17,35 @@
 package mc.modpack.builder.data;
 
 public class PMod {
-    
+    private ModFile modFile;
+    private boolean status;
+
+    public PMod(ModFile modFile, boolean status) {
+        this.modFile = modFile;
+        this.status = status;
+    }
+
+    public PMod(ModFile modFile) {
+        this(modFile, false);
+    }
+
+    public PMod clone() {
+        return new PMod(modFile, status);
+    }
+
+    // GETTERS
+
+    public ModFile getModFile() {
+        return modFile;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    // SETTERS
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }
