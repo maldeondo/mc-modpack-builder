@@ -17,18 +17,28 @@
 package mc.modpack.builder.data;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.HashMap;
 
 import mc.modpack.builder.Utils;
 
 public class ModPack {
     private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
     private ArrayList<Mod> modList; // mod list
-    private ArrayList<Object> selectedModList;
+    private HashMap<ModFile, PMod> modMap;
     private int modNum = 0;
 
     private String name;
     private String file;
+
+    private class LongestChars {
+        byte nameLenght;
+        byte fileLenght;
+
+        LongestChars() {
+            nameLenght = Utils.MINIMUM_NAME_LENGHT;
+            fileLenght = Utils.MINIMUM_VERSION_LENGHT;
+        }
+    }
 
     public ModPack(String name, ArrayList<Mod> modList) {
         if (Utils.validString(name)) {
@@ -37,10 +47,6 @@ public class ModPack {
         }
 
         this.modList = modList;
-        this.selectedModList = new ArrayList<Object>();
-        selectedModList.add(true);
-        selectedModList.add(false);
-        System.out.println(UUID.randomUUID());
     }
 
     public ModPack(String name) { this(name, new ArrayList<Mod>()); }
