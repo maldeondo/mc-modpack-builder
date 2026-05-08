@@ -18,7 +18,13 @@ public class NetworkManager {
         return result.getBody().get("data").getAsJsonObject().get("name").getAsString();
     }
 
-    public void downloadMod(String modId, String version, String modLoader, String filePath) throws IOException, InterruptedException {
+    public String getModURL(String uid) throws IOException, InterruptedException {
+        PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
+
+        return result.getBody().get("data").getAsJsonObject().get("links").getAsJsonObject().get("websiteUrl").getAsString();
+    }
+
+    public boolean downloadMod(String modId, String version, String modLoader, String filePath) throws IOException, InterruptedException {
         //Get the information by ID
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + modId, key);
 
@@ -26,14 +32,23 @@ public class NetworkManager {
         JsonArray array = result.getBody().get("data").getAsJsonObject().get("latestFilesIndexes").getAsJsonArray();
         int fileId = getVersion(array, version, modLoader);
 
-        //Get the info for that file to get the download link
-        String route = "v1/mods/" + modId + "/files/" + fileId;
-        PetitionResult result33 = PetitionMaker.makePetition(route, key);
-        JsonObject resultJson =  result33.getBody().get("data").getAsJsonObject();
+        if(fileId == Integer.MIN_VALUE) {
+            //Get the info for that file to get the download link
+            String route = "v1/mods/" + modId + "/files/" + fileId;
+            PetitionResult result33 = PetitionMaker.makePetition(route, key);
+            JsonObject resultJson =  result33.getBody().get("data").getAsJsonObject();
 
-        //Downloading the mod
-        String downloadRoute = resultJson.get("downloadUrl").getAsString();
-        PetitionMaker.downloadMod(downloadRoute, filePath);
+            //Downloading the mod
+            String downloadRoute = resultJson.get("downloadUrl").getAsString();
+            PetitionMaker.downloadMod(downloadRoute, filePath);
+
+            //Showing that everything went fine
+            return true;
+        }
+        else {
+            //The mod version or launcher doesn't exist
+            return false;
+        }
     }
 
     private int getVersion(JsonArray versions, String version, String modLoader) {

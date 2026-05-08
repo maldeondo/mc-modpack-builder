@@ -48,6 +48,8 @@ public class Main {
         NetworkManager manager = new NetworkManager(apiKey);
 
         System.out.println(manager.getModName("238222"));
-        manager.downloadMod("238222","1.21.1", "6");
+        manager.downloadMod("238222","1.21.1", "6", "./");
+
+        System.out.println(manager.getModURL("238222"));
     }
 }
