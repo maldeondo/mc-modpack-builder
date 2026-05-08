@@ -1,8 +1,11 @@
 package mc.modpack.builder.network;
 
 import java.io.IOException;
+import java.util.LinkedList;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 
 public class NetworkManager {
     private final String key;
@@ -60,6 +63,35 @@ public class NetworkManager {
             //The mod version or launcher doesn't exist
             return false;
         }
+    }
+
+    public LinkedList<ModVersions> getAvaiableVersions(String uid) throws IOException, InterruptedException {
+        PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
+
+        return getAvaiableVersions(result.getBody());
+    }
+
+    public LinkedList<ModVersions> getAvaiableVersions(JsonObject info)  {
+        LinkedList<ModVersions> result = new LinkedList<>();
+        JsonArray versions = info.get("data").getAsJsonObject().get("latestFilesIndexes").getAsJsonArray();
+
+        for(int i=0; i<versions.size(); i++) {
+            JsonObject file = versions.get(i).getAsJsonObject();
+
+            int loader = -1;
+            String version = file.get("gameVersion").getAsString();
+
+            try {
+                loader = file.get("modLoader").getAsInt();
+            }
+            catch(Exception ex) { }
+            finally {
+                ModVersions toAdd = new ModVersions(loader, version);
+                result.add(toAdd);
+            }
+        }
+
+        return result;
     }
 
     private int getVersion(JsonArray versions, String version, String modLoader) {
