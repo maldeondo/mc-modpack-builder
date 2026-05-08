@@ -18,21 +18,22 @@ public class NetworkManager {
         return result.getBody().get("data").getAsJsonObject().get("name").getAsString();
     }
 
-    public void downloadMod(String modId, String version, String modLoader) throws IOException, InterruptedException {
+    public void downloadMod(String modId, String version, String modLoader, String filePath) throws IOException, InterruptedException {
+        //Get the information by ID
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + modId, key);
 
+        //Get the id of the file that needs to be downloaded from the version and modloader
         JsonArray array = result.getBody().get("data").getAsJsonObject().get("latestFilesIndexes").getAsJsonArray();
         int fileId = getVersion(array, version, modLoader);
-        System.out.println(fileId);
 
+        //Get the info for that file to get the download link
         String route = "v1/mods/" + modId + "/files/" + fileId;
         PetitionResult result33 = PetitionMaker.makePetition(route, key);
         JsonObject resultJson =  result33.getBody().get("data").getAsJsonObject();
 
+        //Downloading the mod
         String downloadRoute = resultJson.get("downloadUrl").getAsString();
-        System.out.println("Downloading from route: " + downloadRoute);
-        PetitionMaker.downloadMod(downloadRoute, "./testJar.jar");
-        System.out.println("Mod downloaded");
+        PetitionMaker.downloadMod(downloadRoute, filePath);
     }
 
     private int getVersion(JsonArray versions, String version, String modLoader) {
