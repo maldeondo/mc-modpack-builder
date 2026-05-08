@@ -15,13 +15,24 @@ public class NetworkManager {
     public String getModName(String uid) throws IOException, InterruptedException {
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
 
-        return result.getBody().get("data").getAsJsonObject().get("name").getAsString();
+        return getModName(result.getBody());
     }
 
+    //Gets the mod name from the info returned by curseforge
+    public String getModName(JsonObject info) {
+        return info.get("data").getAsJsonObject().get("name").getAsString();
+    }
+
+    //Gets the mod url using the curseforge ID
     public String getModURL(String uid) throws IOException, InterruptedException {
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
 
-        return result.getBody().get("data").getAsJsonObject().get("links").getAsJsonObject().get("websiteUrl").getAsString();
+        return getModURL(result.getBody());
+    }
+
+    //Gets the mod URL from the info returned by curseforge
+    public String getModURL(JsonObject info) {
+        return info.get("data").getAsJsonObject().get("links").getAsJsonObject().get("websiteUrl").getAsString();
     }
 
     public boolean downloadMod(String modId, String version, String modLoader, String filePath) throws IOException, InterruptedException {
