@@ -28,6 +28,10 @@ public enum ModType {
         this.shortVersion = shortVersion;
     }
 
+    public boolean valid() {
+        return this != null;
+    }
+
     public String getShortVersion() {
         return shortVersion;
     }

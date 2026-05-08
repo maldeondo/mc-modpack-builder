@@ -20,37 +20,36 @@ import mc.modpack.builder.Utils;
 import mc.modpack.builder.enums.ModLoader;
 
 public class ModFile {
-    private String modVersion;
+
+    // Autocontained Key
+    private String fileName;
+
     private String mcVersion;
 
-    private String fileName;
     private ModLoader modLoader;
 
-    public ModFile(String mcVersion, String modVersion, String fileName, ModLoader modLoader) {
-        this.mcVersion = mcVersion;
-        this.modVersion = modVersion;
+    public ModFile(String fileName, String mcVersion, ModLoader modLoader) {
         this.fileName = fileName;
+        this.mcVersion = mcVersion;
         this.modLoader = (modLoader != null) ? modLoader : ModLoader.UNKNOWN;
     }
 
-    public ModFile(String mcVersion, String modVersion, String fileName, int modLoaderCurseForgeID) {
-        this(mcVersion, modVersion, fileName, ModLoader.fromCurseForgeID(modLoaderCurseForgeID));
+    public ModFile(String fileName, String mcVersion, int modLoaderCurseForgeID) {
+        this(mcVersion, Utils.addJarExtension(fileName), ModLoader.fromCurseForgeID(modLoaderCurseForgeID));
     }
 
-    public ModFile(String mcVersion, String modVersion, String fileName) {
-        this(mcVersion, modVersion, fileName, ModLoader.UNKNOWN);
+    public ModFile(String fileName, String mcVersion) {
+        this(fileName, mcVersion, ModLoader.UNKNOWN);
+    }
+
+    // GETTERS
+
+    public String getFileName() {
+        return fileName;
     }
 
     public String getMCVersion() {
         return mcVersion;
-    }
-
-    public String getModVersion() {
-        return modVersion;
-    }
-
-    public String getFileName() {
-        return fileName;
     }
 
     public String getPath() {
@@ -61,12 +60,29 @@ public class ModFile {
         return modLoader;
     }
 
-    public void setModLoader(ModLoader modLoader) {
-        if (modLoader.valid()) this.modLoader = modLoader;
+    // SETTERS
+
+    public boolean setModLoader(ModLoader modLoader) {
+        if (modLoader.valid()) {
+            this.modLoader = modLoader;
+            return true;
+        } else return false;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = Utils.addJarExtension(fileName);
+    public boolean setFileName(String fileName) {
+        String newFileName = Utils.addJarExtension(fileName);
+
+        if (newFileName != null) {
+            this.fileName = newFileName;
+            return true;
+        } else return false;
+    }
+
+    public boolean setMCVersion(String mcVersion) {
+        if (Utils.validString(mcVersion)) {
+            this.mcVersion = mcVersion;
+            return true;
+        } else return false;
     }
 
 }

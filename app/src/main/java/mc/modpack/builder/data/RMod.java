@@ -18,6 +18,7 @@ package mc.modpack.builder.data;
 
 import java.util.HashMap;
 
+import mc.modpack.builder.Utils;
 import mc.modpack.builder.enums.ModType;
 
 public class RMod {
@@ -53,6 +54,8 @@ public class RMod {
         this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED);
     }
 
+    // GETTERS
+
     public int getModCurseForgeID() {
         return id;
     }
@@ -65,11 +68,27 @@ public class RMod {
         return type;
     }
 
-    public void setType(ModType type) {
-        if (type != null) this.type = type;
+    // SETTERS
+
+    public void setModCurseForgeID(int id) {
+        this.id = id;
     }
 
-    // HashMap methods
+    public boolean setModCurseForgeName(String name) {
+        if (Utils.validString(name)) {
+            this.name = name;
+            return true;
+        } else return false;
+    }
+
+    public boolean setModType(ModType type) {
+        if (type.valid()) {
+            this.type = type;
+            return true;
+        } else return false;
+    }
+
+    // HASHMAP METHODS
     public ModFile getModFile(String modVersion) {
         return cacheMap.get(modVersion);
     }
@@ -77,12 +96,12 @@ public class RMod {
     public boolean addModFile(ModFile modFile) {
         // modFile already present (not replaced) -> false
         // modFile not present (added) -> true
-        return (cacheMap.putIfAbsent(modFile.getModVersion(), modFile) == null) ? true : false;
+        return (cacheMap.putIfAbsent(modFile.getFileName(), modFile) == null) ? true : false;
     }
 
     public boolean removeModFile(ModFile modFile) {
         // modFile did not exist (not removed) -> false
         // modFile did exist (removed) -> true
-        return (cacheMap.remove(modFile.getModVersion()) == null) ? false : true;
+        return (cacheMap.remove(modFile.getFileName()) == null) ? false : true;
     }
 }
