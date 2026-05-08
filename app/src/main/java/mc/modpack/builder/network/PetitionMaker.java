@@ -33,13 +33,14 @@ public class PetitionMaker {
     public static boolean downloadMod(String url, String route) {
         //Define the path for the file
         Path target = Paths.get(route);
+        System.out.println("DOwnload path: " + target.toString());
 
         //Define the client
         HttpClient client = HttpClient.newHttpClient();
 
         //Define the request
         HttpRequest req = HttpRequest.newBuilder()
-                .uri(URI.create("url"))
+                .uri(URI.create(url))
                 .header("Content-Type", "application/json")
                 .GET()
                 .build();

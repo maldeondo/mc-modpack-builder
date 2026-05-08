@@ -47,6 +47,7 @@ public class Main {
 
         NetworkManager manager = new NetworkManager(apiKey);
 
-        manager.getModName("238222");
+        System.out.println(manager.getModName("238222"));
+        manager.downloadMod("238222","1.21.1", "6");
     }
 }
