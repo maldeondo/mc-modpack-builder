@@ -29,13 +29,17 @@ public class ModFile {
     private ModLoader modLoader;
 
     public ModFile(String fileName, String mcVersion, ModLoader modLoader) {
-        this.fileName = fileName;
+        this.fileName = Utils.addJarExtension(fileName);
         this.mcVersion = mcVersion;
-        this.modLoader = (modLoader != null) ? modLoader : ModLoader.UNKNOWN;
+        this.modLoader = (modLoader.valid()) ? modLoader : ModLoader.UNKNOWN;
     }
 
     public ModFile(String fileName, String mcVersion, int modLoaderCurseForgeID) {
-        this(mcVersion, Utils.addJarExtension(fileName), ModLoader.fromCurseForgeID(modLoaderCurseForgeID));
+        this(fileName, mcVersion, ModLoader.fromCurseForgeID(modLoaderCurseForgeID));
+    }
+
+    public ModFile(String fileName, String mcVersion, String modLoaderCurseForgeID) {
+        this(fileName, mcVersion, ModLoader.fromCurseForgeID(modLoaderCurseForgeID));
     }
 
     public ModFile(String fileName, String mcVersion) {
