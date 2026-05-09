@@ -52,4 +52,8 @@ public enum ModLoader {
             default -> UNKNOWN;
         };
     }
+
+    public static ModLoader fromCurseForgeID(String curseForgeID) {
+        return fromCurseForgeID(Integer.parseInt(curseForgeID));
+    }
 }
