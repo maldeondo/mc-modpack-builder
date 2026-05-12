@@ -50,7 +50,7 @@ public class Main {
         String uid = "394468";
 
         System.out.println(manager.getModName(uid));
-        manager.downloadMod(uid,"1.21.1", "6", "./testJar.jar");
+        manager.downloadMod(uid,"1.21.1", "6", ".");
 
         System.out.println(manager.getModURL(uid));
 
