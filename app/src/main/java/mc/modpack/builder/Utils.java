@@ -62,11 +62,9 @@ public class Utils {
         return (data != null && data != "");
     }
 
-    public static String addJarExtension(String name) {
-        if (validString(name) && name.length() > 4) {
-            int length = name.length();
-            return (name.substring(length - 4, length).equals(".jar")) ? name : name + ".jar";
-        } else return null;
+    public static String addExtension(String name, String ext) {
+        if (validString(name)) return (name.substring(name.length() - ext.length(), name.length()).equals(ext)) ? name : name + ext;
+        else return null;
     }
 
     public static boolean validIndex(int number, int max) {

@@ -23,13 +23,11 @@ public class ModFile {
 
     // Autocontained Key
     private String fileName;
-
     private String mcVersion;
-
     private ModLoader modLoader;
 
     public ModFile(String fileName, String mcVersion, ModLoader modLoader) {
-        this.fileName = Utils.addJarExtension(fileName);
+        this.fileName = Utils.addExtension(fileName, ".jar");
         this.mcVersion = mcVersion;
         this.modLoader = (modLoader.valid()) ? modLoader : ModLoader.UNKNOWN;
     }
@@ -74,7 +72,7 @@ public class ModFile {
     }
 
     public boolean setFileName(String fileName) {
-        String newFileName = Utils.addJarExtension(fileName);
+        String newFileName = Utils.addExtension(fileName, ".jar");
 
         if (newFileName != null) {
             this.fileName = newFileName;
@@ -87,6 +85,10 @@ public class ModFile {
             this.mcVersion = mcVersion;
             return true;
         } else return false;
+    }
+
+    public void remove() {
+
     }
 
 }
