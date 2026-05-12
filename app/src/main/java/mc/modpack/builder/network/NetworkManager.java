@@ -46,15 +46,16 @@ public class NetworkManager {
         JsonArray array = result.getBody().get("data").getAsJsonObject().get("latestFilesIndexes").getAsJsonArray();
         int fileId = getVersion(array, version, modLoader);
 
-        if(fileId == Integer.MIN_VALUE) {
+        if(fileId != Integer.MIN_VALUE) {
             //Get the info for that file to get the download link
             String route = "v1/mods/" + modId + "/files/" + fileId;
             PetitionResult result33 = PetitionMaker.makePetition(route, key);
             JsonObject resultJson =  result33.getBody().get("data").getAsJsonObject();
 
             //Downloading the mod
+            String fileName = resultJson.get("fileName").getAsString();
             String downloadRoute = resultJson.get("downloadUrl").getAsString();
-            PetitionMaker.downloadMod(downloadRoute, filePath);
+            PetitionMaker.downloadMod(downloadRoute, filePath + "/" + fileName);
 
             //Showing that everything went fine
             return true;
