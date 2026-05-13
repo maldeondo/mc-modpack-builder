@@ -18,17 +18,17 @@ package mc.modpack.builder.terminal;
 
 import mc.modpack.builder.Utils;
 import mc.modpack.builder.data.Mod;
-import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.data.ModPack;
 
 public class Table {
-    private Modpack modpack;
+    private ModPack modpack;
     private int startingPos;
     private int endingPos;
     private int height;
-    
+
     private int selected;
 
-    public Table(Modpack modpack, int height) {
+    public Table(ModPack modpack, int height) {
         this.modpack = modpack;
         this.height = height;
 
@@ -37,11 +37,11 @@ public class Table {
         this.endingPos = height;
     }
 
-    public Table(Modpack modpack) {
+    public Table(ModPack modpack) {
         this(modpack, modpack.getModNum() - 1);
     }
 
-    public Modpack getModpack() {
+    public ModPack getModpack() {
         return modpack;
     }
 
@@ -57,7 +57,7 @@ public class Table {
         return height;
     }
 
-    public void setModpack(Modpack modpack) {
+    public void setModpack(ModPack modpack) {
         this.modpack = modpack;
     }
 
@@ -71,7 +71,7 @@ public class Table {
     public void moveDown() {
         //selected++ if next position (selected + 1) is <= modpack.getModNum()
         if (Utils.validIndex(selected + 1, modpack.getModNum() - 1)) selected++;
-        
+
         scroll();
     }
 
@@ -127,7 +127,7 @@ public class Table {
         block.append(dynamicTableSeparator);
 
         block.append(getBlock(dynamicTableFormat));
-        
+
         return block.toString();
     }
 

@@ -17,35 +17,41 @@
 package mc.modpack.builder.data;
 
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.HashMap;
 
 import mc.modpack.builder.Utils;
 
-public class Modpack {
+public class ModPack {
     private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
     private ArrayList<Mod> modList; // mod list
-    private ArrayList<Object> selectedModList;
+    private HashMap<ModFile, PMod> modMap;
     private int modNum = 0;
 
     private String name;
     private String file;
-    
-    public Modpack(String name, ArrayList<Mod> modList) {
+
+    private class LongestChars {
+        byte nameLenght;
+        byte fileLenght;
+
+        LongestChars() {
+            nameLenght = Utils.MINIMUM_NAME_LENGHT;
+            fileLenght = Utils.MINIMUM_VERSION_LENGHT;
+        }
+    }
+
+    public ModPack(String name, ArrayList<Mod> modList) {
         if (Utils.validString(name)) {
             this.name = name;
             file = Utils.fileFromName(name);
         }
 
         this.modList = modList;
-        this.selectedModList = new ArrayList<Object>();
-        selectedModList.add(true);
-        selectedModList.add(false);
-        System.out.println(UUID.randomUUID());
     }
 
-    public Modpack(String name) { this(name, new ArrayList<Mod>()); }
+    public ModPack(String name) { this(name, new ArrayList<Mod>()); }
 
-    public Modpack() { this("modpack"); }
+    public ModPack() { this("modpack"); }
 
     // GETTERS
 
@@ -64,7 +70,7 @@ public class Modpack {
     public void setName(String name) {
         this.name = name;
         this.file = Utils.fileFromName(name);
-    } 
+    }
     public void setModNum(int modNum) { this.modNum = modNum; }
     public void setModArray(ArrayList<Mod> modArray) { this.modList = modArray; }
 
@@ -120,7 +126,7 @@ public class Modpack {
         if (chars > minimum && chars > longestChars[field]) longestChars[field] = chars;
     }
 
-    public void updateLongestRemoved(Modpack modpack) {
+    public void updateLongestRemoved(ModPack modpack) {
         resetLongestChars();
 
         for (int i = 0; i < modpack.getModNum(); i++) updateLongest(modpack.getMod(i));

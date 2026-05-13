@@ -16,10 +16,15 @@
 
 package mc.modpack.builder;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Utils {
     public static final String VERSION = "v0";
 
     public static final String WORKING_DIR = System.getProperty("user.home") + "/.config/mc-modpack-builder/";
+    public static final String MOD_DIR = WORKING_DIR + "modregistry/";
 
     public static String fileFromName(String name) {
         return String.format("%s%s.json", WORKING_DIR, name);
@@ -28,7 +33,7 @@ public class Utils {
     public static final int CLIENT_MOD = 0;
     public static final int SERVER_MOD = 1;
     public static final int CLIENT_AND_SERVER_MOD = 2;
-    
+
     public static String modTypeFormat(int type) {
         return switch (type) {
             case 0 -> "C";
@@ -53,30 +58,42 @@ public class Utils {
         };
     }
 
-    public static final String repeat(int amount, String text) {
-        return new String(new char[amount]).replace("\0", text);
-    }
-
-    public static final boolean validString(String data) {
+    public static boolean validString(String data) {
         return (data != null && data != "");
     }
 
-    public static final boolean validIndex(int number, int max) {
+    public static String addExtension(String name, String ext) {
+        if (validString(name)) return (name.substring(name.length() - ext.length(), name.length()).equals(ext)) ? name : name + ext;
+        else return null;
+    }
+
+    public static boolean validIndex(int number, int max) {
         return (number >= 0 && number <= max);
     }
 
-    public static final boolean validIndex(int number) {
+    public static boolean validIndex(int number) {
         return validIndex(number, number);
     }
 
     // TABLE_FORMAT = %-3s| %-15s | %-10s | %-4s | %-6s |\n
-    public static final String tableFormat(int[] longestChars) {
+    public static String tableFormat(int[] longestChars) {
         return "%3s | %-" + longestChars[Utils.LONGEST_NAME_INDEX] + "s | %-" + longestChars[Utils.LONGEST_VERSION_INDEX] + "s | %-4s | %-6s |%s\n";
     }
 
     // TABLE_SEPARATOR = ---|-----------------|------------|------|--------|\n
-    public static final String tableSeparator(int[] longestChars) {
-        return "----|" + Utils.repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2, "-") + "|" + Utils.repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2, "-") + "|------|--------|\n";
+    public static String tableSeparator(int[] longestChars) {
+        return "----|" + "-".repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2) + "|" + "-".repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2) + "|------|--------|\n";
+    }
+
+    public static String getAPIKey() throws IOException {
+        String line;
+
+        BufferedReader reader = new BufferedReader(new FileReader(".env"));
+
+        while ((line = reader.readLine()) != null) if (line.split("=")[0].equals("API_KEY")) return line.split("=")[1];
+        reader.close();
+
+        return null;
     }
 
     public static final int LONGEST_NAME_INDEX = 0;

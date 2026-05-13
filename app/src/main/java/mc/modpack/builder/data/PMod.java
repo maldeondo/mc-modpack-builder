@@ -14,30 +14,38 @@
 *  limitations under the License.
 */
 
-package mc.modpack.builder;
+package mc.modpack.builder.data;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+public class PMod {
+    private ModFile modFile;
+    private boolean status;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+    public PMod(ModFile modFile, boolean status) {
+        this.modFile = modFile;
+        this.status = status;
+    }
 
-import mc.modpack.builder.data.ModPack;
+    public PMod(ModFile modFile) {
+        this(modFile, false);
+    }
 
-public class Retrieve {
-    public static void main(String[] args) throws Exception {
-        ModPack retrieve;
-        Gson gson = new Gson();
+    public PMod clone() {
+        return new PMod(modFile, status);
+    }
 
-        FileReader reader = new FileReader(new File(Utils.WORKING_DIR + "modpack.json"));
+    // GETTERS
 
-        retrieve = gson.fromJson(reader, ModPack.class);
+    public ModFile getModFile() {
+        return modFile;
+    }
 
+    public boolean getStatus() {
+        return status;
+    }
 
+    // SETTERS
 
-        System.out.println(retrieve.getFile());
-
-        reader.close();
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

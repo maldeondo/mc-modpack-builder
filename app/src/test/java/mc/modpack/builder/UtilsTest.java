@@ -40,13 +40,6 @@ class UtilsTest {
         assertEquals("", Utils.modTypeFormat(4), "Other types mean nothing (void String)");
     }
 
-    @Test void repeatIsCorrect() {
-        // Check wether repeat returns the correct String
-        assertEquals("-------", Utils.repeat(7, "-"), "Returns 7 consecutive - chars");
-        assertEquals("HeaderHeaderHeader", Utils.repeat(3, "Header"), "Returns 3 consecutive Header Strings");
-        assertEquals("", Utils.repeat(0, "anything"), "Anything repeated 0 times equals a void String");
-    }
-
     @Test void validStringIsCorrect() {
         // Check wether validString recognizes non-valid Strings
         assertTrue(Utils.validString("valid"), "Valid String returns true");
