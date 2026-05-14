@@ -55,4 +55,13 @@ class UtilsTest {
         assertFalse(Utils.validIndex(2, 1), "Higher index than valid returns false");
         assertFalse(Utils.validIndex(-1, 2), "Negative integers always returns false");
     }
+    
+    @Test void addExtensionIsCorrect() {
+        //
+        assertEquals("name.ext", Utils.addExtension("name", "ext"), "If there is no extension it adds it");
+        assertEquals(null, Utils.addExtension(null, "ext"), "Returns null if name equals null");
+        assertEquals(null, Utils.addExtension("name", null), "Returns null if extension equals null");
+        assertEquals(null, Utils.addExtension(null, null), "Return null if both parameters are null");
+        assertEquals("name.ext", Utils.addExtension("name.ext", "ext"), "Returns name if name already contains extension");
+    }
 }

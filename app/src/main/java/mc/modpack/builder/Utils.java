@@ -63,7 +63,7 @@ public class Utils {
     }
 
     public static String addExtension(String name, String ext) {
-        if (validString(name)) return (name.substring(name.length() - ext.length(), name.length()).equals(ext)) ? name : name + ext;
+        if (validString(name) && validString(ext)) return (name.substring(name.length() - ext.length(), name.length()).equals(ext)) ? name : name + "." + ext;
         else return null;
     }
 
