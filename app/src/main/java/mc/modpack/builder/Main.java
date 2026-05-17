@@ -17,12 +17,14 @@
 package mc.modpack.builder;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import mc.modpack.builder.data.Mod;
 import mc.modpack.builder.data.ModPack;
+import mc.modpack.builder.network.ModVersions;
+import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
-import mc.modpack.builder.terminal.TUI;
 
 public class Main {
     public static void run(String apiKey) throws Exception {
@@ -44,21 +46,23 @@ public class Main {
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
 
-        TUI term = new TUI(modpack, table);
+        NetworkManager manager = new NetworkManager(apiKey);
+        String uid = "394468";
 
-        boolean running = true;
+        System.out.println(manager.getModName(uid));
+        manager.downloadMod(uid,"1.21.1", "6", ".");
 
-        while (running) {
-            term.clean();
-            term.writeModpack();
-            switch (term.readMovement()) {
-                case "UP", "w": term.moveUp(); break;
-                case "DOWN", "s": term.moveDown(); break;
-                case "q", "Q": running = false; break;
-                default: break;
-            }
+        System.out.println(manager.getModURL(uid));
+
+
+        LinkedList<ModVersions> avaiableVersions = manager.getAvaiableVersions(uid);
+        for(int i=0; i<avaiableVersions.size(); i++) {
+            System.out.println("Version nº" + i);
+            ModVersions version = avaiableVersions.get(i);
+
+            System.out.println("Game version: " + version.getVersion());
+            System.out.println("Modloader used: " + version.getModLoader());
+            System.out.println();
         }
-
-        term.close();
     }
 }
