@@ -26,7 +26,7 @@ import org.jline.utils.NonBlockingReader;
 import org.jline.utils.InfoCmp.Capability;
 
 import mc.modpack.builder.Utils;
-import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.data.ModPack;
 
 public class TUI {
     private Terminal jlineTerminal;
@@ -34,7 +34,7 @@ public class TUI {
 
     private int height;
 
-    public TUI(Modpack modpack, Table table) throws IOException {
+    public TUI(ModPack modpack, Table table) throws IOException {
         this.table = table;
         height = 0;
 
@@ -65,7 +65,7 @@ public class TUI {
 
         writer.print(table.getFullTable());
 
-        writer.print(Utils.repeat(Utils.FOOTER_SEPARATION_LINES, "\n"));
+        writer.print("\n".repeat(Utils.FOOTER_SEPARATION_LINES));
         writer.print(Table.getFooter());
 
         writer.flush();
@@ -88,7 +88,7 @@ public class TUI {
     }
 
     public void clean() {
-        jlineTerminal.writer().print("\033[H"); 
+        jlineTerminal.writer().print("\033[H");
         jlineTerminal.writer().flush();
         jlineTerminal.puts(Capability.clr_eos);
     }

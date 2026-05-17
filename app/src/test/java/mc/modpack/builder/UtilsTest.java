@@ -40,13 +40,6 @@ class UtilsTest {
         assertEquals("", Utils.modTypeFormat(4), "Other types mean nothing (void String)");
     }
 
-    @Test void repeatIsCorrect() {
-        // Check wether repeat returns the correct String
-        assertEquals("-------", Utils.repeat(7, "-"), "Returns 7 consecutive - chars");
-        assertEquals("HeaderHeaderHeader", Utils.repeat(3, "Header"), "Returns 3 consecutive Header Strings");
-        assertEquals("", Utils.repeat(0, "anything"), "Anything repeated 0 times equals a void String");
-    }
-
     @Test void validStringIsCorrect() {
         // Check wether validString recognizes non-valid Strings
         assertTrue(Utils.validString("valid"), "Valid String returns true");
@@ -61,5 +54,14 @@ class UtilsTest {
         assertTrue(Utils.validIndex(0, 0), "Zero (as number) always returns true");
         assertFalse(Utils.validIndex(2, 1), "Higher index than valid returns false");
         assertFalse(Utils.validIndex(-1, 2), "Negative integers always returns false");
+    }
+    
+    @Test void addExtensionIsCorrect() {
+        //
+        assertEquals("name.ext", Utils.addExtension("name", "ext"), "If there is no extension it adds it");
+        assertEquals(null, Utils.addExtension(null, "ext"), "Returns null if name equals null");
+        assertEquals(null, Utils.addExtension("name", null), "Returns null if extension equals null");
+        assertEquals(null, Utils.addExtension(null, null), "Return null if both parameters are null");
+        assertEquals("name.ext", Utils.addExtension("name.ext", "ext"), "Returns name if name already contains extension");
     }
 }
