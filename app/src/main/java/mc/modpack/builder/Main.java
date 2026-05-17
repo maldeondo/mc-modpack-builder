@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import mc.modpack.builder.data.Mod;
-import mc.modpack.builder.data.Modpack;
+import mc.modpack.builder.data.ModPack;
 import mc.modpack.builder.network.ModVersions;
 import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
