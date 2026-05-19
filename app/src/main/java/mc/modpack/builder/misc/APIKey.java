@@ -27,10 +27,10 @@ public class APIKey {
     public static String fetchKey() throws IOException {
         String key = null;
 
-        key = fetchFromFile(Utils.WORKING_DIR + "API_KEY");
+        key = fetchFromFile(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
         if (Utils.validString(key)) return key;
 
-        key = fetchFromFile(".env/API_KEY");
+        key = fetchFromFile(".env/CURSEFORGE_API_KEY");
         if (Utils.validString(key)) return key;
 
         key = fetchFromEnv();
@@ -41,7 +41,7 @@ public class APIKey {
     }
 
     private static String fetchFromEnv() throws IOException {
-        return System.getenv("API_KEY");
+        return System.getenv("CURSEFORGE_API_KEY");
     }
 
     private static String fetchFromFile(String path) throws IOException {
@@ -67,7 +67,7 @@ public class APIKey {
     }
 
     private static void storeToFile(String key) throws IOException {
-        FileWriter writer = new FileWriter(Utils.WORKING_DIR + "API_KEY");
+        FileWriter writer = new FileWriter(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
 
         writer.write(key);
 
