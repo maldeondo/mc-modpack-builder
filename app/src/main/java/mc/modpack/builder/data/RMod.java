@@ -28,30 +28,45 @@ public class RMod {
 
     private String name;
     private ModType type;
+    private String slug;
 
     private HashMap<String, ModFile> cacheMap;
-
+    //https://www.curseforge.com/minecraft/mc-mods/
+    
     public RMod() {}
 
-    public RMod(int modCurseForgeID, String modCurseForgeName, ModType type, HashMap<String, ModFile> cacheMap) {
+    public RMod(int modCurseForgeID, String modCurseForgeName, ModType type, HashMap<String, ModFile> cacheMap, String url) {
         this.id = modCurseForgeID;
         this.name = modCurseForgeName;
         this.type = (type != null) ? type : ModType.UNDEFINED;
+        this.slug = Utils.removeLastSlash(url).substring(url.lastIndexOf("/"));
 
         if (cacheMap != null) this.cacheMap = cacheMap;
         else this.cacheMap = new HashMap<String, ModFile>();
     }
 
+    public RMod(int modCurseForgeID, String modCurseForgeName, HashMap<String, ModFile> cacheMap, String url) {
+        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, cacheMap, url);
+    }
+
     public RMod(int modCurseForgeID, String modCurseForgeName, HashMap<String, ModFile> cacheMap) {
-        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, cacheMap);
+        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, cacheMap, "");
+    }
+
+    public RMod(int modCurseForgeID, String modCurseForgeName, ModType type, String url) {
+        this(modCurseForgeID, modCurseForgeName, type, null, url);
     }
 
     public RMod(int modCurseForgeID, String modCurseForgeName, ModType type) {
-        this(modCurseForgeID, modCurseForgeName, type, null);
+        this(modCurseForgeID, modCurseForgeName, type, null, "");
     }
 
-    public RMod(int modCurseForgeID, String modCurseForgeName) {
-        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED);
+    public RMod(int modCurseForgeID, String modCurseForgeName, String url) {
+        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, url);
+    }
+    
+    public RMod(int modCurseForgeID, String modCurseForgeName){
+        this(modCurseForgeID, modCurseForgeName, "");
     }
 
     // GETTERS

@@ -96,6 +96,11 @@ public class Utils {
         return null;
     }
 
+    public static String removeLastSlash(String url){
+        if (validString(url)) return (url.endsWith("/")) ? url.substring(0, url.length()) : url;
+        else return null;
+    }
+
     public static final int LONGEST_NAME_INDEX = 0;
     public static final int LONGEST_VERSION_INDEX = 1;
 
