@@ -48,11 +48,9 @@ public class App {
     public static void main(String[] args) {
         List<String> argsList = Arrays.asList(args);
 
-        Gson gson = new Gson();
-
         if (!checkFlags(argsList)) {
             try {
-                //APIKey.fetchKey(gson);
+                APIKey.fetchKey();
                 //Main.run(Utils.getAPIKey());
             } catch (Exception ex) {
                 if (checkDebug(argsList)) ex.printStackTrace();

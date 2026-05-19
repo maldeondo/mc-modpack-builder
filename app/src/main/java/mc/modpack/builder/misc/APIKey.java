@@ -19,70 +19,58 @@ package mc.modpack.builder.misc;
 import mc.modpack.builder.Utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
-import com.google.gson.Gson;
 
 public class APIKey {
-    private String key;
+    public static String fetchKey() throws IOException {
+        String key = null;
 
-    public APIKey(String key) {
-        if (Utils.validString(key)) this.key = key;
-        else key = null;
+        key = fetchFromFile(Utils.WORKING_DIR + "API_KEY");
+        if (Utils.validString(key)) return key;
+
+        key = fetchFromFile(".env/API_KEY");
+        if (Utils.validString(key)) return key;
+
+        key = fetchFromEnv();
+        if (Utils.validString(key)) return key;
+
+        return fetchFromUser();
+
     }
 
-    public APIKey() {
-        this(null);
+    private static String fetchFromEnv() throws IOException {
+        return System.getenv("API_KEY");
     }
 
-    public String getKey() {
+    private static String fetchFromFile(String path) throws IOException {
+        Scanner sc = new Scanner(new File(path));
+
+        String key = sc.nextLine();
+        sc.close();
+
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    // FETCH BLOCK
-    public static APIKey fetchKey(Gson gson) {
-        APIKey key;
-
-        key = fetchFromEnv();
-        if (key != null) return key;
-
-        key = fetchFromDisk(gson);
-        if (key != null) return key;
-
-
-
-        return new APIKey();
-    }
-
-    private static APIKey fetchFromEnv() {
-        return new APIKey(System.getenv("API_KEY"));
-    }
-
-    private static APIKey fetchFromDisk(Gson gson) {
-        try {
-            FileReader reader = new FileReader(new File(Utils.WORKING_DIR + "api.json"));
-
-            return gson.fromJson(reader, APIKey.class);
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    private static APIKey fetchFromUser() {
+    private static String fetchFromUser() throws IOException {
         System.out.println("The CurseForge API key could not be found, please enter one below:");
 
         Scanner sc = new Scanner(System.in);
-        String keyString = sc.nextLine();
-        return new APIKey();
+
+        String key = sc.nextLine();
+        sc.close();
+
+        storeToFile(key);
+
+        return key;
     }
 
-    private static void storeToFile() {
+    private static void storeToFile(String key) throws IOException {
+        FileWriter writer = new FileWriter(Utils.WORKING_DIR + "API_KEY");
 
+        writer.write(key);
+
+        writer.close();
     }
 }
