@@ -18,3 +18,6 @@ app/build
 
 #Intellij
 .idea
+
+#jar files
+*.jar
