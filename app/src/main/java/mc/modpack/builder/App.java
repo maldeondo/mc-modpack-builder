@@ -19,6 +19,10 @@ package mc.modpack.builder;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import mc.modpack.builder.misc.APIKey;
+
 public class App {
     public static final String HELP_MSG = String.format(
         "Usage: java -jar mc-modpack-builder-%s.jar [OPTION]\n" +
@@ -44,9 +48,12 @@ public class App {
     public static void main(String[] args) {
         List<String> argsList = Arrays.asList(args);
 
+        Gson gson = new Gson();
+
         if (!checkFlags(argsList)) {
             try {
-                Main.run(Utils.getAPIKey());
+                //APIKey.fetchKey(gson);
+                //Main.run(Utils.getAPIKey());
             } catch (Exception ex) {
                 if (checkDebug(argsList)) ex.printStackTrace();
                 else System.out.printf(ERR_MSG, ex.getMessage());
