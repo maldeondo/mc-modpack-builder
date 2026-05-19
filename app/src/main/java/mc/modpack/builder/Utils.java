@@ -23,12 +23,16 @@ import java.io.IOException;
 import com.google.gson.Gson;
 
 public class Utils {
+    private static final Gson gson = new Gson();
+
+    public static Gson getGson() {
+        return gson;
+    }
+
     public static final String VERSION = "v0";
 
     public static final String WORKING_DIR = System.getProperty("user.home") + "/.config/mc-modpack-builder/";
     public static final String MOD_DIR = WORKING_DIR + "modregistry/";
-
-    public static final Gson gson = new Gson();
 
     public static String fileFromName(String name) {
         return String.format("%s%s.json", WORKING_DIR, name);
