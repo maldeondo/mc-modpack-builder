@@ -26,7 +26,7 @@ jobs:
 
       - name: Assemble with Gradle Wrapper
         run: ./gradlew assemble
-  
+
   test:
     runs-on: ubuntu-latest
     needs: assemble
@@ -46,3 +46,5 @@ jobs:
 
       - name: Run JUnit tests
         run: ./gradlew test
+        env:
+            CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
