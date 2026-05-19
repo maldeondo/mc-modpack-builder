@@ -45,4 +45,44 @@ public class APIKey {
         this.key = key;
     }
 
+    // FETCH BLOCK
+    public static APIKey fetchKey(Gson gson) {
+        APIKey key;
+
+        key = fetchFromEnv();
+        if (key != null) return key;
+
+        key = fetchFromDisk(gson);
+        if (key != null) return key;
+
+
+
+        return new APIKey();
+    }
+
+    private static APIKey fetchFromEnv() {
+        return new APIKey(System.getenv("API_KEY"));
+    }
+
+    private static APIKey fetchFromDisk(Gson gson) {
+        try {
+            FileReader reader = new FileReader(new File(Utils.WORKING_DIR + "api.json"));
+
+            return gson.fromJson(reader, APIKey.class);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    private static APIKey fetchFromUser() {
+        System.out.println("The CurseForge API key could not be found, please enter one below:");
+
+        Scanner sc = new Scanner(System.in);
+        String keyString = sc.nextLine();
+        return new APIKey();
+    }
+
+    private static void storeToFile() {
+
+    }
 }
