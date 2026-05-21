@@ -14,6 +14,12 @@ public class NetworkManager {
         this.key = key;
     }
 
+    //Returns the raw info from the API
+    public JsonObject getRawInfo(String uid) throws IOException, InterruptedException{
+        PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
+        return result.getBody();
+    }
+
     //Gets the mod name using the curseforge ID
     public String getModName(String uid) throws IOException, InterruptedException {
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
