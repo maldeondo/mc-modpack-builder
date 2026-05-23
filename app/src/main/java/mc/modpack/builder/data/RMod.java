@@ -83,6 +83,10 @@ public class RMod {
         return type;
     }
 
+    public String getSlug(){
+        return slug;
+    }
+
     // SETTERS
 
     public void setModCurseForgeID(int id) {
@@ -101,6 +105,13 @@ public class RMod {
             this.type = type;
             return true;
         } else return false;
+    }
+
+    public boolean setSlug(String slug){
+        if(Utils.validString(slug)){
+            this.slug = slug;
+            return true;
+        }else return false;
     }
 
     // HASHMAP METHODS
