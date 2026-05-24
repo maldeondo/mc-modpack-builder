@@ -18,9 +18,9 @@ package mc.modpack.builder.misc;
 
 import mc.modpack.builder.Utils;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class APIKey {
@@ -45,12 +45,11 @@ public class APIKey {
     }
 
     private static String fetchFromFile(String path) throws IOException {
-        Scanner sc = new Scanner(new File(path));
-
-        String key = sc.nextLine();
-        sc.close();
-
-        return key;
+        try {
+            return Files.readString(Path.of(path));
+        } catch (IOException ex) {
+            return null;
+        }
     }
 
     private static String fetchFromUser() throws IOException {
@@ -67,10 +66,6 @@ public class APIKey {
     }
 
     private static void storeToFile(String key) throws IOException {
-        FileWriter writer = new FileWriter(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
-
-        writer.write(key);
-
-        writer.close();
+        Files.writeString(Path.of(key), key);
     }
 }
