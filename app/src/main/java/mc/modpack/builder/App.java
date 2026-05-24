@@ -19,10 +19,6 @@ package mc.modpack.builder;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gson.Gson;
-
-import mc.modpack.builder.misc.APIKey;
-
 public class App {
     public static final String HELP_MSG = String.format(
         "Usage: java -jar mc-modpack-builder-%s.jar [OPTION]\n" +
@@ -50,8 +46,7 @@ public class App {
 
         if (!checkFlags(argsList)) {
             try {
-                APIKey.fetchKey();
-                //Main.run(Utils.getAPIKey());
+                Main.run();
             } catch (Exception ex) {
                 if (checkDebug(argsList)) ex.printStackTrace();
                 else System.out.printf(ERR_MSG, ex.getMessage());
