@@ -44,7 +44,7 @@ public class APIKey {
         return Utils.decodeB64(System.getenv("CURSEFORGE_API_KEY"));
     }
 
-    private static String fetchFromFile(String path) throws IOException {
+    private static String fetchFromFile(String path) {
         try {
             return Utils.decodeB64(Files.readString(Path.of(path)));
         } 
