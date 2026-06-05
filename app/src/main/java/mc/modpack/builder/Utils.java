@@ -16,9 +16,7 @@
 
 package mc.modpack.builder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Base64;
 
 import com.google.gson.Gson;
 
@@ -93,15 +91,12 @@ public class Utils {
         return "----|" + "-".repeat(longestChars[Utils.LONGEST_NAME_INDEX] + 2) + "|" + "-".repeat(longestChars[Utils.LONGEST_VERSION_INDEX] + 2) + "|------|--------|\n";
     }
 
-    public static String getAPIKey() throws IOException {
-        String line;
-
-        BufferedReader reader = new BufferedReader(new FileReader(".env"));
-
-        while ((line = reader.readLine()) != null) if (line.split("=")[0].equals("API_KEY")) return line.split("=")[1];
-        reader.close();
-
-        return null;
+    public static String encodeB64(String data) {
+        return Base64.getEncoder().encodeToString(data.getBytes());
+    }
+    
+    public static String decodeB64(String data) {
+        return new String(Base64.getDecoder().decode(data));
     }
 
     public static final int LONGEST_NAME_INDEX = 0;
