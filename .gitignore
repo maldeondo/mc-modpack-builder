@@ -16,6 +16,7 @@ app/build
 
 ### Environment, DO NOT REMOVE
 .env
+.envrc
 .env/
 
 #jar files
