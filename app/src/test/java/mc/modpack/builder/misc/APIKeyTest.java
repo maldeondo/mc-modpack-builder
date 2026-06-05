@@ -17,26 +17,78 @@
 package mc.modpack.builder.misc;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.util.Scanner;
+import mc.modpack.builder.Utils;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+
 class APIKeyTest {
-    @BeforeAll void storeActualKey() {
-        
-    }
+    private static String path = Utils.WORKING_DIR + "CURSEFORGE_API_KEY";
+    private static String previousKey = null;
     
-    
-    @Test void checkForEnvironment() {
+    @BeforeAll static void storePreviousKey() {
         try {
-            System.out.println(APIKey.fetchKey());
-        } catch (Exception e) {
-            
+            previousKey = Files.readString(Path.of(path));
+            Files.delete(Path.of(path));  
+        } 
+        catch (NoSuchFileException ex) {
+            System.out.println("Previous key not found.");
+        } 
+        catch (IOException ex) {
+            System.out.println("Unknown error.");
         }
-        
     }
     
+    @Test void checkValidKey() {
+        try {
+            Files.writeString(Path.of(path), Files.readString(Path.of("app/src/test/resources/secretkey")), StandardOpenOption.CREATE_NEW);
+
+            assertEquals("this_is_a_secret_key", APIKey.fetchKey());
+        }
+        catch (IOException ex) {
+            System.out.println("Unknown error.");
+        }
+    }
+
+    @Test void checkEnv() {
+        try {
+            assertEquals(System.getenv("CURSEFORGE_API_KEY"), APIKey.fetchKey());        
+        }
+        catch (IOException ex) {
+            System.out.println("Unknown error.");
+        }
+    }
+
+    @Test void checkFileNotPresent() {
+    }
+
+    @AfterEach static void deleteTestFile() {
+        try {
+            Files.deleteIfExists(Path.of(path));
+        } 
+        catch (IOException ex) {
+            System.out.println("Unknown error.");
+        }
+    }
+
+    @AfterAll static void restorePreviousKey() {
+        if (Utils.validString(previousKey)) {
+            try {
+                Files.writeString(Path.of(path), previousKey, StandardOpenOption.CREATE);
+            } 
+            catch (IOException ex) {
+                System.out.println("Unknown error.");
+            }
+        }
+    }
 }
