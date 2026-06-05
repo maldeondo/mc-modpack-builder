@@ -19,8 +19,11 @@ package mc.modpack.builder.misc;
 import mc.modpack.builder.Utils;
 
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+
 import java.util.Scanner;
 
 public class APIKey {
@@ -30,9 +33,6 @@ public class APIKey {
         key = fetchFromFile(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
         if (Utils.validString(key)) return key;
 
-        key = fetchFromFile(".env/CURSEFORGE_API_KEY");
-        if (Utils.validString(key)) return key;
-
         key = fetchFromEnv();
         if (Utils.validString(key)) return key;
 
@@ -40,14 +40,15 @@ public class APIKey {
 
     }
 
-    private static String fetchFromEnv() throws IOException {
-        return System.getenv("CURSEFORGE_API_KEY");
+    private static String fetchFromEnv() {
+        return Utils.decodeB64(System.getenv("CURSEFORGE_API_KEY"));
     }
 
     private static String fetchFromFile(String path) throws IOException {
         try {
-            return Files.readString(Path.of(path));
-        } catch (IOException ex) {
+            return Utils.decodeB64(Files.readString(Path.of(path)));
+        } 
+        catch (IOException ex) {
             return null;
         }
     }
@@ -60,12 +61,12 @@ public class APIKey {
         String key = sc.nextLine();
         sc.close();
 
-        storeToFile(key);
+        storeToFile(Utils.encodeB64(key));
 
         return key;
     }
 
     private static void storeToFile(String key) throws IOException {
-        Files.writeString(Path.of(key), key);
+        Files.writeString(Path.of(key), key, StandardOpenOption.CREATE);
     }
 }
