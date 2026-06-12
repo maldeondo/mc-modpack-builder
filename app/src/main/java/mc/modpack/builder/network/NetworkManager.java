@@ -15,7 +15,7 @@ public class NetworkManager {
     }
 
     //Returns the raw info from the API
-    public JsonObject getRawInfo(String uid) throws IOException, InterruptedException{
+    public JsonObject getRawInfo(String uid) throws IOException, InterruptedException {
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
         return result.getBody();
     }
