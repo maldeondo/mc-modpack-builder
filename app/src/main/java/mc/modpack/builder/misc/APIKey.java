@@ -61,12 +61,12 @@ public class APIKey {
         String key = sc.nextLine();
         sc.close();
 
-        storeToFile(Utils.encodeB64(key));
+        storeToFile(key);
 
         return key;
     }
 
     private static void storeToFile(String key) throws IOException {
-        Files.writeString(Path.of(key), key, StandardOpenOption.CREATE);
+        Files.writeString(Path.of(Utils.WORKING_DIR + "CURSEFORGE_API_KEY"), Utils.encodeB64(key), StandardOpenOption.CREATE);
     }
 }

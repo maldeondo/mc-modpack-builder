@@ -51,9 +51,9 @@ class APIKeyTest {
     
     @Test void checkValidKey() {
         try {
-            Files.writeString(Path.of(path), Files.readString(Path.of("app/src/test/resources/secretkey")), StandardOpenOption.CREATE_NEW);
+            Files.writeString(Path.of(path), Utils.encodeB64("this_is_a_secret_key"), StandardOpenOption.CREATE_NEW);
 
-            assertEquals("this_is_a_secret_key", APIKey.fetchKey());
+            assertEquals("this_is_a_secret_key", APIKey.fetchKey(), "Must return the decoded value from disk.");
         }
         catch (IOException ex) {
             System.out.println("Unknown error.");
@@ -62,14 +62,11 @@ class APIKeyTest {
 
     @Test void checkEnv() {
         try {
-            assertEquals(System.getenv("CURSEFORGE_API_KEY"), APIKey.fetchKey());        
+            assertEquals(Utils.decodeB64(System.getenv("CURSEFORGE_API_KEY")), APIKey.fetchKey());        
         }
         catch (IOException ex) {
             System.out.println("Unknown error.");
         }
-    }
-
-    @Test void checkFileNotPresent() {
     }
 
     @AfterEach static void deleteTestFile() {
