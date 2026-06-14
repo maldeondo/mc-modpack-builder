@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import mc.modpack.builder.enums.ModLoader;
+
 
 public class NetworkManager {
     private final String key;
@@ -44,13 +46,13 @@ public class NetworkManager {
         return info.get("data").getAsJsonObject().get("links").getAsJsonObject().get("websiteUrl").getAsString();
     }
 
-    public boolean downloadMod(String modId, String version, String modLoader, String filePath) throws IOException, InterruptedException {
+    public String downloadMod(String modId, String version, ModLoader modLoader, String filePath) throws IOException, InterruptedException {
         //Get the information by ID
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + modId, key);
 
         //Get the id of the file that needs to be downloaded from the version and modloader
         JsonArray array = result.getBody().get("data").getAsJsonObject().get("latestFilesIndexes").getAsJsonArray();
-        int fileId = getVersion(array, version, modLoader);
+        int fileId = getVersion(array, version, modLoader.getCurseForgeID());
 
         if(fileId != Integer.MIN_VALUE) {
             //Get the info for that file to get the download link
@@ -64,11 +66,11 @@ public class NetworkManager {
             PetitionMaker.downloadMod(downloadRoute, filePath + "/" + fileName);
 
             //Showing that everything went fine
-            return true;
+            return fileName;
         }
         else {
             //The mod version or launcher doesn't exist
-            return false;
+            return "";
         }
     }
 
@@ -101,7 +103,7 @@ public class NetworkManager {
         return result;
     }
 
-    private int getVersion(JsonArray versions, String version, String modLoader) {
+    private int getVersion(JsonArray versions, String version, int modLoader) {
         int versionCount = versions.size();
         int id = Integer.MIN_VALUE;
 
@@ -112,7 +114,7 @@ public class NetworkManager {
                 String wantedLoader = check.get("modLoader").getAsString();
 
                 if(wantedLoader != null) {
-                    if((check.get("gameVersion").getAsString().equals(version)) && (wantedLoader.equals(modLoader))) {
+                    if((check.get("gameVersion").getAsString().equals(version)) && (wantedLoader.equals(Integer.toString(modLoader)))) {
                         int possibleId = check.get("fileId").getAsInt();
 
                         if(id < possibleId) {
