@@ -27,10 +27,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class APIKey {
+    private static final Path path = Path.of(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
+    
     public static String fetchKey() throws IOException {
         String key = null;
 
-        key = fetchFromFile(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
+        key = fetchFromFile();
         if (Utils.validString(key)) return key;
 
         key = fetchFromEnv();
@@ -44,9 +46,9 @@ public class APIKey {
         return Utils.decodeB64(System.getenv("CURSEFORGE_API_KEY"));
     }
 
-    private static String fetchFromFile(String path) {
+    private static String fetchFromFile() {
         try {
-            return Utils.decodeB64(Files.readString(Path.of(path)));
+            return Utils.decodeB64(Files.readString(path));
         } 
         catch (IOException ex) {
             return null;
@@ -67,6 +69,6 @@ public class APIKey {
     }
 
     private static void storeToFile(String key) throws IOException {
-        Files.writeString(Path.of(Utils.WORKING_DIR + "CURSEFORGE_API_KEY"), Utils.encodeB64(key), StandardOpenOption.CREATE);
+        Files.writeString(path, Utils.encodeB64(key), StandardOpenOption.CREATE);
     }
 }
