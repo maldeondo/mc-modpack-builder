@@ -6,3 +6,4 @@
 - [ ] Improve some classes' structure (when develop is stable)
   - [ ] Move Utils to .misc
   - [ ] Rename main classes (App -> Launcher, Main -> Runtime)
+- [ ] Make use of a global reference to HttpClient in PetitionMaker
