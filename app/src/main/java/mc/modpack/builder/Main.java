@@ -22,6 +22,8 @@ import java.util.List;
 
 import mc.modpack.builder.data.Mod;
 import mc.modpack.builder.data.ModPack;
+import mc.modpack.builder.data.RMod;
+import mc.modpack.builder.enums.ModLoader;
 import mc.modpack.builder.network.ModVersions;
 import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
@@ -49,12 +51,17 @@ public class Main {
         NetworkManager manager = new NetworkManager(apiKey);
         String uid = "394468";
 
-        System.out.println(manager.getModName(uid));
-        manager.downloadMod(uid,"1.21.1", "6", ".");
+        RMod mod = new RMod();
+        mod.setModCurseForgeID(Integer.parseInt(uid));
+        mod.refreshModInfo(manager);
+        System.out.println(mod.getModCurseForgeName());
+        System.out.println(mod.getModURL());
 
-        System.out.println(manager.getModURL(uid));
+        //Testing downloads
+        System.out.println("Testing downloads...");
+        mod.downloadVersion(manager, "1.21.1", ModLoader.NEOFORGE);
 
-
+        /*
         LinkedList<ModVersions> avaiableVersions = manager.getAvaiableVersions(uid);
         for(int i=0; i<avaiableVersions.size(); i++) {
             System.out.println("Version nº" + i);
@@ -64,5 +71,6 @@ public class Main {
             System.out.println("Modloader used: " + version.getModLoader());
             System.out.println();
         }
+        */
     }
 }
