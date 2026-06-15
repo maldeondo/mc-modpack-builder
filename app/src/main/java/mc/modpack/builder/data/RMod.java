@@ -121,6 +121,14 @@ public class RMod {
 
 
     //API integration
+
+    /**
+    * Retrieves and sets mod name and url from the mod id
+    * Mod id must be set before calling this function, otherwise, it will fail
+    *
+    * @param manager NetworkManager object used to handle the download
+    * @return true if the information could be retrieved, false otherwise
+    */
     public boolean refreshModInfo(NetworkManager manager) {
         try {
             String modId = Integer.toString(id);
@@ -142,6 +150,15 @@ public class RMod {
         }
     }
 
+    /**
+    * Downloads a specific version of the mod into the /files directory and adds it to the cache
+    *
+    * @param manager NetworkManager object used to handle the download
+    * @param version String representing the Minecraft version for which the mod should be downloaded
+    * @param loader ModLoader object representing the mod loader that will be used in the modpack
+    *
+    * @return true if the file existed and could be downloaded, false otherwise
+    */
     public boolean downloadVersion(NetworkManager manager, String version, ModLoader loader) {
         try {
             //Trying to download the file
