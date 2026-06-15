@@ -92,11 +92,11 @@ public class Utils {
     }
 
     public static String encodeB64(String data) {
-        return Base64.getEncoder().encodeToString(data.getBytes());
+        return (!validString(data)) ? data : Base64.getEncoder().encodeToString(data.getBytes());
     }
     
     public static String decodeB64(String data) {
-        return new String(Base64.getDecoder().decode(data));
+        return (!validString(data)) ? data : new String(Base64.getDecoder().decode(data));
     }
 
     public static final int LONGEST_NAME_INDEX = 0;
