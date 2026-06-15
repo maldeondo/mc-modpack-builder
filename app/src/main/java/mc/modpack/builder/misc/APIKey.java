@@ -29,7 +29,7 @@ import java.nio.file.StandardOpenOption;
 public class APIKey {
     
     // ~/.config/mc-modpack-builder/CURSEFORGE_API_KEY
-    private static final Path path = Path.of(Utils.WORKING_DIR + "CURSEFORGE_API_KEY");
+    private static final Path path = Path.of(Utils.WORKING_DIR + "api_key");
 
     /**
      * Fetches the user's {@code CurseForge API Key} from one of three sources:
