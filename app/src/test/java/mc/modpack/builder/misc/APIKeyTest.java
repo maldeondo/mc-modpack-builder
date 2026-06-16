@@ -69,7 +69,7 @@ class APIKeyTest {
         }
     }
 
-    @AfterEach static void deleteTestFile() {
+    @AfterEach void deleteTestFile() {
         try {
             Files.deleteIfExists(Path.of(path));
         } 
