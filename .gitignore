@@ -9,15 +9,15 @@ app/build
 # Ignore Gradle logs
 *.log
 
-### Own ###
+# IDEs
 .vscode/
+.zed/
+.idea/
 
-## DO NOT REMOVE ##
+### Environment, DO NOT REMOVE
 .env
+.envrc
 .env/
-
-#Intellij
-.idea
 
 #jar files
 *.jar

@@ -8,9 +8,25 @@ import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Class that handles the making of HTTP petitions to Curseforge's API servers
+ */
 public class PetitionMaker {
+    /**
+     * Common start of all the urls that will be used
+     */
     public static String BASE_URL = "https://api.curseforge.com/";
 
+
+    /**
+    * Makes an HTTP petition to the specified API endpoint, and parses and returns the server's response
+    *
+    * @param url Endpoint of the API to call
+    * @param key API key, for optional use when accessing key-locked endpoints
+    *
+    * @return A {@link PetitionResult PetitionResult} object containing all the information from the petition,
+    *         like the HTTP response code and headers, as well as the response's body
+    */
     public static PetitionResult makePetition(String url, String key) throws IOException, InterruptedException {
         //Creating the client that will make the petition
         HttpClient client = HttpClient.newHttpClient();
@@ -30,6 +46,14 @@ public class PetitionMaker {
         return new PetitionResult(response.statusCode(), response.body(), response.headers());
     }
 
+    /**
+    * Handles the download of a specifica version of a mod (the .jar file)
+    *
+    * @param url The direct url from which to download the mod
+    * @param route The path to the directory where the mod will be downloaded
+    *
+    * @return true if the download process went fine, false otherwise
+ */
     public static boolean downloadMod(String url, String route) {
         //Define the path for the file
         Path target = Paths.get(route);

@@ -46,7 +46,7 @@ public class App {
 
         if (!checkFlags(argsList)) {
             try {
-                Main.run(Utils.getAPIKey());
+                Main.run();
             } catch (Exception ex) {
                 if (checkDebug(argsList)) ex.printStackTrace();
                 else System.out.printf(ERR_MSG, ex.getMessage());
