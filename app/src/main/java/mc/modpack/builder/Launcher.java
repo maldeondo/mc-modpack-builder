@@ -21,7 +21,7 @@ import java.util.List;
 
 import mc.modpack.builder.misc.Utils;
 
-public class App {
+public class Launcher {
     public static final String HELP_MSG = String.format(
         "Usage: java -jar mc-modpack-builder-%s.jar [OPTION]\n" +
         "   -d, --debug -> Show detailed developer-oriented errors\n" +
@@ -48,7 +48,7 @@ public class App {
 
         if (!checkFlags(argsList)) {
             try {
-                Main.run();
+                Runtime.run();
             } catch (Exception ex) {
                 if (checkDebug(argsList)) ex.printStackTrace();
                 else System.out.printf(ERR_MSG, ex.getMessage());

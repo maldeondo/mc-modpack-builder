@@ -54,7 +54,7 @@ jar {
 
 application {
     // Define the main class for the application.
-    mainClass = 'mc.modpack.builder.App'
+    mainClass = 'mc.modpack.builder.Launcher'
 }
 
 tasks.named('test') {

@@ -29,7 +29,7 @@ import mc.modpack.builder.network.ModVersions;
 import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
 
-public class Main {
+public class Runtime {
     public static void run() throws Exception {
         Mod m1 = new Mod("JEI", "v1", "http", "http", 2, 2);
         Mod m2 = new Mod("JourneyMap", "v2", "http", "http", 0, 0);
