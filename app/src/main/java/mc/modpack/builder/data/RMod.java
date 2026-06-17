@@ -33,7 +33,7 @@ public class RMod {
     private ModType type;
 
     private String modURL;
-    private String slug
+    private String slug;
 
     private HashMap<String, ModFile> cacheMap;
 
@@ -91,6 +91,7 @@ public class RMod {
 
     public String getSlug(){
         return slug;
+    }
       
     public String getModURL() {
         return modURL;
