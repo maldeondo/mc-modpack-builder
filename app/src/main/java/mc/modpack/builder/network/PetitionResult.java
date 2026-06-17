@@ -19,7 +19,12 @@ public class PetitionResult {
         this.status = status;
         this.headers = headers;
 
-        this.body = JsonParser.parseString(body).getAsJsonObject();
+        try {
+            this.body = JsonParser.parseString(body).getAsJsonObject();
+        }
+        catch(Exception ex) {
+            this.body = null;
+        }
     }
 
     public int getStatus() {
