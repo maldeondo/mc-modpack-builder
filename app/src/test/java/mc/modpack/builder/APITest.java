@@ -63,6 +63,27 @@ public class APITest {
             catch(IOException | InterruptedException ex) {
                 fail("An unhandled exception occured while checking for the mod's name via their JSON info previously returned by the API");
             }
+
+            //Trying with mods that don't exist
+            try {
+                //Checking for Just Enough Items
+                JsonObject dont = manager.getRawInfo("000000");
+                assertEquals("", manager.getModName(dont), "Testing plausible ID");
+
+                //Checking for Sodium
+                dont = manager.getRawInfo("lol");
+                assertEquals("", manager.getModName(dont), "Testing non-numeric ID");
+                
+                //Checking for sophisticated backpacks
+                dont = manager.getRawInfo("888888888888");
+                assertEquals("", manager.getModName(dont), "Testing really long ID");
+                
+                dont = manager.getRawInfo("");
+                assertEquals("", manager.getModName(dont), "Testing null ID");
+            }
+            catch(IOException | InterruptedException ex) {
+                fail("An unhandled exception occured while checking for the name of mods that don't exist");
+            }
         }
     }
 }
