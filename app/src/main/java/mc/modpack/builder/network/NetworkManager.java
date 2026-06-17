@@ -86,7 +86,12 @@ public class NetworkManager {
     * @return the url, contained in a String
     */
     public String getModURL(JsonObject info) {
-        return info.get("data").getAsJsonObject().get("links").getAsJsonObject().get("websiteUrl").getAsString();
+        if(info == null) {
+            return "";
+        }
+        else {
+            return info.get("data").getAsJsonObject().get("links").getAsJsonObject().get("websiteUrl").getAsString();
+        }
     }
 
     /**
