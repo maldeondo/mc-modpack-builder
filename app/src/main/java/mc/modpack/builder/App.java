@@ -19,6 +19,8 @@ package mc.modpack.builder;
 import java.util.Arrays;
 import java.util.List;
 
+import mc.modpack.builder.misc.Utils;
+
 public class App {
     public static final String HELP_MSG = String.format(
         "Usage: java -jar mc-modpack-builder-%s.jar [OPTION]\n" +

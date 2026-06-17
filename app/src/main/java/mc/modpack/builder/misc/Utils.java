@@ -14,7 +14,7 @@
 *  limitations under the License.
 */
 
-package mc.modpack.builder;
+package mc.modpack.builder.misc;
 
 import java.util.Base64;
 

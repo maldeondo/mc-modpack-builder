@@ -16,8 +16,8 @@
 
 package mc.modpack.builder.data;
 
-import mc.modpack.builder.Utils;
 import mc.modpack.builder.enums.ModLoader;
+import mc.modpack.builder.misc.Utils;
 
 public class ModFile {
 

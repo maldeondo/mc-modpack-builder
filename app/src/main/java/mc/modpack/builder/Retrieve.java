@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import mc.modpack.builder.data.ModPack;
+import mc.modpack.builder.misc.Utils;
 
 public class Retrieve {
     public static void main(String[] args) throws Exception {

@@ -20,9 +20,9 @@ import java.io.IOError;
 import java.io.IOException;
 import java.util.HashMap;
 
-import mc.modpack.builder.Utils;
 import mc.modpack.builder.enums.ModLoader;
 import mc.modpack.builder.enums.ModType;
+import mc.modpack.builder.misc.Utils;
 import mc.modpack.builder.network.NetworkManager;
 
 public class RMod {

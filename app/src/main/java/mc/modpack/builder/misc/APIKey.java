@@ -16,8 +16,6 @@
 
 package mc.modpack.builder.misc;
 
-import mc.modpack.builder.Utils;
-
 import java.io.Console;
 import java.io.IOException;
 

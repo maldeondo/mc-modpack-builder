@@ -16,9 +16,9 @@
 
 package mc.modpack.builder.terminal;
 
-import mc.modpack.builder.Utils;
 import mc.modpack.builder.data.Mod;
 import mc.modpack.builder.data.ModPack;
+import mc.modpack.builder.misc.Utils;
 
 public class Table {
     private ModPack modpack;

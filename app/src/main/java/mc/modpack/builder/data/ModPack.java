@@ -19,7 +19,7 @@ package mc.modpack.builder.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import mc.modpack.builder.Utils;
+import mc.modpack.builder.misc.Utils;
 
 public class ModPack {
     private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};

@@ -17,9 +17,6 @@
 package mc.modpack.builder.misc;
 
 import org.junit.jupiter.api.Test;
-
-import mc.modpack.builder.Utils;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

@@ -14,13 +14,15 @@
 *  limitations under the License.
 */
 
-package mc.modpack.builder;
+package mc.modpack.builder.misc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import mc.modpack.builder.misc.Utils;
 
 class UtilsTest {
     @Test void modTypeFormatCorrect() {
