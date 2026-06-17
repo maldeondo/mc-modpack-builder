@@ -30,7 +30,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 class APIKeyTest {
-    private static String path = Utils.WORKING_DIR + "CURSEFORGE_API_KEY";
+    private static String path = Utils.WORKING_DIR + "api_key";
     private static String previousKey = null;
     
     @BeforeAll static void storePreviousKey() {
