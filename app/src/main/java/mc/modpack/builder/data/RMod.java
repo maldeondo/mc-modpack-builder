@@ -31,7 +31,9 @@ public class RMod {
 
     private String name;
     private ModType type;
+
     private String modURL;
+    private String slug;
 
     private HashMap<String, ModFile> cacheMap;
 
@@ -39,25 +41,38 @@ public class RMod {
         this.cacheMap = new HashMap<String, ModFile>();
     }
 
-    public RMod(int modCurseForgeID, String modCurseForgeName, ModType type, HashMap<String, ModFile> cacheMap) {
+    public RMod(int modCurseForgeID, String modCurseForgeName, ModType type, HashMap<String, ModFile> cacheMap, String url) {
         this.id = modCurseForgeID;
         this.name = modCurseForgeName;
         this.type = (type != null) ? type : ModType.UNDEFINED;
+        this.slug = Utils.removeLastSlash(url).substring(url.lastIndexOf("/"));
 
         if (cacheMap != null) this.cacheMap = cacheMap;
         else this.cacheMap = new HashMap<String, ModFile>();
     }
 
+    public RMod(int modCurseForgeID, String modCurseForgeName, HashMap<String, ModFile> cacheMap, String url) {
+        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, cacheMap, url);
+    }
+
     public RMod(int modCurseForgeID, String modCurseForgeName, HashMap<String, ModFile> cacheMap) {
-        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, cacheMap);
+        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, cacheMap, "");
+    }
+
+    public RMod(int modCurseForgeID, String modCurseForgeName, ModType type, String url) {
+        this(modCurseForgeID, modCurseForgeName, type, null, url);
     }
 
     public RMod(int modCurseForgeID, String modCurseForgeName, ModType type) {
-        this(modCurseForgeID, modCurseForgeName, type, null);
+        this(modCurseForgeID, modCurseForgeName, type, null, "");
     }
 
-    public RMod(int modCurseForgeID, String modCurseForgeName) {
-        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED);
+    public RMod(int modCurseForgeID, String modCurseForgeName, String url) {
+        this(modCurseForgeID, modCurseForgeName, ModType.UNDEFINED, url);
+    }
+    
+    public RMod(int modCurseForgeID, String modCurseForgeName){
+        this(modCurseForgeID, modCurseForgeName, "");
     }
 
     // GETTERS
@@ -74,6 +89,10 @@ public class RMod {
         return type;
     }
 
+    public String getSlug(){
+        return slug;
+    }
+      
     public String getModURL() {
         return modURL;
     }
@@ -98,6 +117,13 @@ public class RMod {
         } else return false;
     }
 
+    public boolean setSlug(String slug){
+        if(Utils.validString(slug)){
+            this.slug = slug;
+            return true;
+        }else return false;
+    }
+      
     public void setModURL(String newURL) {
         this.modURL = newURL;
     }
