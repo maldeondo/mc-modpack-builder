@@ -45,7 +45,6 @@ public class NetworkManager {
     */
     public String getModName(String uid) throws IOException, InterruptedException {
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + uid, key);
-
         return getModName(result.getBody());
     }
 
@@ -57,7 +56,12 @@ public class NetworkManager {
     * @return the mod's name
     */
     public String getModName(JsonObject info) {
-        return info.get("data").getAsJsonObject().get("name").getAsString();
+        if(info == null) {
+            return "";
+        }
+        else {
+            return info.get("data").getAsJsonObject().get("name").getAsString();
+        }
     }
 
     /**
