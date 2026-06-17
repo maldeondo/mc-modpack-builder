@@ -109,6 +109,9 @@ public class NetworkManager {
         //Get the information by ID
         PetitionResult result = PetitionMaker.makePetition("v1/mods/" + modId, key);
 
+        //Checking if mod exists. Otherwise, return now
+        if(result.getBody() == null) { return ""; }
+
         //Get the id of the file that needs to be downloaded from the version and modloader
         JsonArray array = result.getBody().get("data").getAsJsonObject().get("latestFilesIndexes").getAsJsonArray();
         int fileId = getVersion(array, version, modLoader.getCurseForgeID());
