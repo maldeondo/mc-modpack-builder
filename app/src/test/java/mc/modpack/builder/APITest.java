@@ -86,4 +86,68 @@ public class APITest {
             }
         }
     }
+
+    @Test void UrlFromAPI() {
+        //Getting the API key, and setting everything up
+        String key = getKey();
+        NetworkManager manager = new NetworkManager(key);
+
+        //Checking if the API key was fetched. If not, the tests won't work
+        if(key.isEmpty()) {
+            fail("The API key isn't defined");
+        }
+        else {
+            //Trying with mods that exist via ID
+            try {
+                //Checking on various mods we now exist by their ID
+                assertEquals("https://www.curseforge.com/minecraft/mc-mods/jei", manager.getModURL("238222"), "Should retrieve Just Enough Items' url with its mod ID (238222)");
+                assertEquals("https://www.curseforge.com/minecraft/mc-mods/cloth-config", manager.getModURL("348521"), "Should retrieve Cloth Config API's url using its mod ID (348521)");
+                assertEquals("https://www.curseforge.com/minecraft/mc-mods/bookshelf", manager.getModURL("228525"), "Should retrieve Bookshelf's url based on its API ID (228525)");
+                
+            }
+            catch(IOException | InterruptedException ex) {
+                fail("An unhandled exception occured while getting the url for mods that are avaiable via their IDs");
+            }
+
+            //Trying with mods that exist via JSON object
+            try {
+                //Checking for Just Enough Items
+                JsonObject gecko = manager.getRawInfo("388172");
+                assertEquals("https://www.curseforge.com/minecraft/mc-mods/geckolib", manager.getModURL(gecko), "Should retrieve GeckoLib's url via its JSON info");
+
+                //Checking for Sodium
+                JsonObject sodium = manager.getRawInfo("394468");
+                assertEquals("https://www.curseforge.com/minecraft/mc-mods/sodium", manager.getModURL(sodium), "Should retrieve Sodium's url via its JSON info");
+                
+                //Checking for sophisticated backpacks
+                JsonObject backp = manager.getRawInfo("422301");
+                assertEquals("https://www.curseforge.com/minecraft/mc-mods/sophisticated-backpacks", manager.getModURL(backp), "Should retrieve Sophisticated Backpacks' url based on its JSON info");
+                
+            }
+            catch(IOException | InterruptedException ex) {
+                fail("An unhandled exception occured while getting for the mod's url via their JSON info previously returned by the API");
+            }
+
+            //Trying with mods that don't exist
+            try {
+                //Checking for Just Enough Items
+                JsonObject dont = manager.getRawInfo("000000");
+                assertEquals("", manager.getModName(dont), "Testing plausible ID");
+
+                //Checking for Sodium
+                dont = manager.getRawInfo("lol");
+                assertEquals("", manager.getModName(dont), "Testing non-numeric ID");
+                
+                //Checking for sophisticated backpacks
+                dont = manager.getRawInfo("888888888888");
+                assertEquals("", manager.getModName(dont), "Testing really long ID");
+                
+                dont = manager.getRawInfo("");
+                assertEquals("", manager.getModName(dont), "Testing null ID");
+            }
+            catch(IOException | InterruptedException ex) {
+                fail("An unhandled exception occured while getting the url of mods that don't exist");
+            }
+        }
+    }
 }
