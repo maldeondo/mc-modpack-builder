@@ -87,21 +87,26 @@ public class APIKey {
      * @throws IOException if an I/O error occurs when saving the key to disk
      */
     private static String fetchFromUser() throws IOException {
-        Console con = System.console(); String key;
+        try {
+            Console con = System.console(); String key;
 
-        System.out.println("The CurseForge API key could not be found or is not valid.");
+            System.out.println("The CurseForge API key could not be found or is not valid.");
 
-        do {
-            key = new String(con.readPassword("Please enter a valid key (shadow) -> "));
-        } while (!Utils.validString(key));
+            do {
+                key = new String(con.readPassword("Please enter a valid key (shadow) -> "));
+            } while (!Utils.validString(key));
 
-        storeToFile(key);
+            storeToFile(key);
 
-        return key;
+            return key;
+        }
+        catch (NullPointerException ex) {
+            return null; // A System.console() object is not available
+        }
     }
 
     /**
-     * Stores the new key to the {@code base/CURSEFORGE_API_KEY file}
+     * Stores the new key to the {@code base/CURSEFORGE_API_KEY} file
      * 
      * @param key value
      * @throws IOException if an I/O error occurs
