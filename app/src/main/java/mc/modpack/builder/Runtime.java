@@ -28,6 +28,8 @@ import mc.modpack.builder.enums.ModLoader;
 import mc.modpack.builder.network.ModVersions;
 import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
+import mc.modpack.builder.terminal.column.Column;
+import mc.modpack.builder.terminal.column.NameColumn;
 
 public class Runtime {
     public static void run() throws Exception {
@@ -49,29 +51,8 @@ public class Runtime {
 
         modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
 
-        NetworkManager manager = new NetworkManager(APIKey.fetchKey());
-        String uid = "394468";
-
-        RMod mod = new RMod();
-        mod.setModCurseForgeID(Integer.parseInt(uid));
-        mod.refreshModInfo(manager);
-        System.out.println(mod.getModCurseForgeName());
-        System.out.println(mod.getModURL());
-
         //Testing downloads
-        System.out.println("Testing downloads...");
-        mod.downloadVersion(manager, "1.21.1", ModLoader.NEOFORGE);
+       
 
-        /*
-        LinkedList<ModVersions> avaiableVersions = manager.getAvaiableVersions(uid);
-        for(int i=0; i<avaiableVersions.size(); i++) {
-            System.out.println("Version nº" + i);
-            ModVersions version = avaiableVersions.get(i);
-
-            System.out.println("Game version: " + version.getVersion());
-            System.out.println("Modloader used: " + version.getModLoader());
-            System.out.println();
-        }
-        */
     }
 }
