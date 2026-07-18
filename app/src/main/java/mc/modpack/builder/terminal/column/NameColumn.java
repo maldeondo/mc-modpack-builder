@@ -9,7 +9,7 @@ public class NameColumn extends Column {
 
     @Override
     public String getHeader() {
-        return "Name";
+        return "Mod";
     }
 
     @Override
