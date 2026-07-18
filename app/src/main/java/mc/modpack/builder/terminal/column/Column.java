@@ -7,7 +7,6 @@ import mc.modpack.builder.data.ModPack;
 public class Column {
     private int maxChars = 0;
 
-
     public String getHeader() {
         return "No headers found";
     }
@@ -31,6 +30,4 @@ public class Column {
 
         if (modChars.length() > maxChars) this.maxChars = modChars.length();
     }
-
-
 }
