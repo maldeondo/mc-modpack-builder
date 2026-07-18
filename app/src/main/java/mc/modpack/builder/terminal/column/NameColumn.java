@@ -1,6 +1,6 @@
 package mc.modpack.builder.terminal.column;
 
-import mc.modpack.builder.data.Mod;
+import mc.modpack.builder.data.PMod;
 
 public class NameColumn extends Column {
     public NameColumn() {
@@ -13,7 +13,7 @@ public class NameColumn extends Column {
     }
 
     @Override
-    public String getValue(Mod mod) {
-        return mod.getName();
+    public String getValue(PMod mod) {
+        return mod.getModFile().getRMod().getModCurseForgeName();
     }
 }

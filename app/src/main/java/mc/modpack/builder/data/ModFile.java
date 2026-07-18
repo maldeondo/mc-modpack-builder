@@ -25,11 +25,13 @@ public class ModFile {
     private String fileName;
     private String mcVersion;
     private ModLoader modLoader;
+    private RMod rmod;
 
-    public ModFile(String fileName, String mcVersion, ModLoader modLoader) {
+    public ModFile(String fileName, String mcVersion, ModLoader modLoader, RMod rmod) {
         this.fileName = Utils.addExtension(fileName, ".jar");
         this.mcVersion = mcVersion;
         this.modLoader = (modLoader.valid()) ? modLoader : ModLoader.UNKNOWN;
+        this.rmod = rmod;
     }
 
     public ModFile(String fileName, String mcVersion, int modLoaderCurseForgeID) {
@@ -60,6 +62,10 @@ public class ModFile {
 
     public ModLoader getModLoader() {
         return modLoader;
+    }
+
+    public RMod getRMod() {
+        return rmod;
     }
 
     // SETTERS
