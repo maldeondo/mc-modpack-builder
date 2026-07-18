@@ -19,12 +19,15 @@ package mc.modpack.builder.terminal;
 import mc.modpack.builder.data.Mod;
 import mc.modpack.builder.data.ModPack;
 import mc.modpack.builder.misc.Utils;
+import mc.modpack.builder.terminal.column.*;
 
 public class Table {
     private ModPack modpack;
     private int startingPos;
     private int endingPos;
     private int height;
+    
+    private Column[] columns;
 
     private int selected;
 
@@ -35,6 +38,13 @@ public class Table {
         this.startingPos = 0;
         this.selected = 0;
         this.endingPos = height;
+
+        this.columns = new Column[] {
+            new NameColumn(),
+            new VersionColumn(),
+            new TypeColumn(),
+            new StatusColumn()
+        };
     }
 
     public Table(ModPack modpack) {
