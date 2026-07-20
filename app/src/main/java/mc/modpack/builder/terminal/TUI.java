@@ -27,6 +27,7 @@ import org.jline.utils.InfoCmp.Capability;
 
 import mc.modpack.builder.data.ModPack;
 import mc.modpack.builder.misc.Utils;
+import mc.modpack.builder.terminal.column.Column;
 
 public class TUI {
     private Terminal jlineTerminal;
@@ -52,6 +53,10 @@ public class TUI {
     public void moveDown() {
         table.moveDown();
     }
+    
+    public void printToTerminal(String data) {
+        jlineTerminal.writer().print(data);
+    }
 
     public void writeModpack() {
         PrintWriter writer = jlineTerminal.writer();
@@ -71,7 +76,28 @@ public class TUI {
         writer.flush();
     }
 
+    public void printTable() {
+        Mod cache = null;
+    
+        for (Column column : table.getColumns()) {
+            for (int i = table.getStartingPos(); i < table.getEndingPos(); i++) {
+                cache = table.getModpack().getMod(i);
+            
+                printToTerminal(column.getValue(cache));
+            }
+        }
 
+        for (int i = 0; i < 4; i++) {
+            Column column = table.getColumns()[i];
+        
+            for (int j = table.getStartingPos(); j < table.getEndingPos(); j++) {
+                
+                writer.print(column.getValue(table.getModpack().getMod(j)));
+            }
+
+        }
+    }
+    
     public String readMovement() throws IOException {
         NonBlockingReader reader = jlineTerminal.reader();
         int num;

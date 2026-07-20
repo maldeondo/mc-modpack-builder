@@ -70,6 +70,10 @@ public class Table {
     public void setModpack(ModPack modpack) {
         this.modpack = modpack;
     }
+    
+    public Column[] getColumns() {
+        return columns;
+    }
 
     public void moveUp() {
         //selected-- if next position (selected - 1) is >= 0
@@ -183,5 +187,20 @@ public class Table {
 
     public static String getFooter() {
         return "[S]ave [Q]uit";
+    }
+    
+    public String[] getColumn(int columnId) {
+        String[] result = new String[endingPos - startingPos];
+        Column column = columns[columnId];
+        
+        for (int i = startingPos; i < endingPos; i++) {
+            result[i] = column.getValue(modpack.getMod(i));
+        }
+        
+        return result;
+    }
+    
+    public int getMaxChars(int columnId) {
+        return columns[columnId].getMaxChars();
     }
 }

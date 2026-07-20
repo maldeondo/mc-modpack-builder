@@ -46,6 +46,7 @@ public class ModPack {
             file = Utils.fileFromName(name);
         }
 
+        modMap.
         this.modList = modList;
     }
 
