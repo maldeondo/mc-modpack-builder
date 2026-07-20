@@ -17,105 +17,82 @@
 package mc.modpack.builder.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import javax.naming.NamingException;
 
 import mc.modpack.builder.misc.Utils;
 
 public class ModPack {
-    private int[] longestChars = {Utils.MINIMUM_NAME_LENGHT, Utils.MINIMUM_VERSION_LENGHT};
-    private ArrayList<Mod> modList; // mod list
-    private HashMap<ModFile, PMod> modMap;
-    private int modNum = 0;
-
     private String name;
-    private String file;
+    private ArrayList<PMod> modList; // mod list
 
-    private class LongestChars {
-        byte nameLenght;
-        byte fileLenght;
-
-        LongestChars() {
-            nameLenght = Utils.MINIMUM_NAME_LENGHT;
-            fileLenght = Utils.MINIMUM_VERSION_LENGHT;
-        }
-    }
-
-    public ModPack(String name, ArrayList<Mod> modList) {
+    public ModPack(String name, ArrayList<PMod> modList) throws NamingException {
         if (Utils.validString(name)) {
             this.name = name;
-            file = Utils.fileFromName(name);
-        }
+        } else throw new NamingException();
 
-        modMap.
         this.modList = modList;
     }
 
-    public ModPack(String name) { this(name, new ArrayList<Mod>()); }
-
-    public ModPack() { this("modpack"); }
+    public ModPack(String name) throws NamingException { 
+        this(name, new ArrayList<PMod>()); 
+    }
 
     // GETTERS
 
-    public Mod getMod(int index) throws IndexOutOfBoundsException {
-        if (Utils.validIndex(index, modNum)) return modList.get(index);
+    public PMod getMod(int index) throws IndexOutOfBoundsException {
+        if (Utils.validIndex(index, getModNum())) return modList.get(index);
         else throw new IndexOutOfBoundsException();
+    }
+
+    public int getModNum() {
+        return modList.size();
     }
 
     // GSON
 
     public String getName() { return name; }
-    public String getFile() { return file; }
-    public int getModNum() { return modNum; }
-    public ArrayList<Mod> getModArray() { return modList; }
+    public ArrayList<PMod> getModArray() { return modList; }
 
-    public void setName(String name) {
-        this.name = name;
-        this.file = Utils.fileFromName(name);
+    public void setName(String name) throws NamingException {
+        if (Utils.validString(name)) {
+            this.name = name;
+        } else throw new NamingException();
     }
-    public void setModNum(int modNum) { this.modNum = modNum; }
-    public void setModArray(ArrayList<Mod> modArray) { this.modList = modArray; }
+    public void setModArray(ArrayList<PMod> modList) { this.modList = modList; }
 
     // LOGIC BLOCK
 
-    public void addMod(Mod mod, int index) throws IndexOutOfBoundsException {
-        if (!Utils.validIndex(index, modNum)) throw new IndexOutOfBoundsException();
+    public void addMod(PMod mod, int index) throws IndexOutOfBoundsException {
+        if (!Utils.validIndex(index, getModNum())) throw new IndexOutOfBoundsException();
         else {
             modList.add(index, mod);
-            modNum++;
 
             updateLongestField(mod.getName(), Utils.LONGEST_NAME_INDEX, Utils.MINIMUM_NAME_LENGHT);
             updateLongestField(mod.getVersion(), Utils.LONGEST_VERSION_INDEX, Utils.MINIMUM_VERSION_LENGHT);
         }
     }
 
-    public void addMod(Mod mod) { this.addMod(mod, modNum); }
+    public void addMod(PMod mod) { this.addMod(mod, getModNum()); }
 
-    public void addModList(ArrayList<Mod> modList) {
-        for (Mod mod: modList) addMod(mod);
-    }
-
-    public void replaceModList(ArrayList<Mod> modList) {
-        this.modList = new ArrayList<Mod>();
-
-        modNum = 0;
-        addModList(modList);
+    public void addModList(ArrayList<PMod> modList) {
+        for (PMod mod: modList) addMod(mod);
     }
 
     public void removeMod(int index) throws IndexOutOfBoundsException {
-        if (!Utils.validIndex(index, modNum)) throw new IndexOutOfBoundsException();
+        if (!Utils.validIndex(index, getModNum())) throw new IndexOutOfBoundsException();
         else {
             modList.remove(index);
-            modNum--;
 
             updateLongestRemoved(this);
         }
     }
 
-    public void removeMod(String name) throws IndexOutOfBoundsException {
-        if (!Utils.validString(name)) throw new IndexOutOfBoundsException();
-        else for (int target = 0; target < modNum; target++) {
-            if (modList.get(target).getName() == name) {
-                removeMod(target);
+    public void removeMod(String name) throws NamingException, IndexOutOfBoundsException {
+        if (!Utils.validString(name)) throw new NamingException();
+        else for (PMod mod : modList) {
+            if (mod.getModFile().getRMod().getModCurseForgeName() == name) {
+                removeMod();
                 break;
             }
         }
