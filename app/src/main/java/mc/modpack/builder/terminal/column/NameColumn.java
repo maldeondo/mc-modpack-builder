@@ -1,9 +1,10 @@
 package mc.modpack.builder.terminal.column;
 
+import mc.modpack.builder.data.ModPack;
 import mc.modpack.builder.data.PMod;
 
 public class NameColumn extends Column {
-    public NameColumn() {
+    public NameColumn(ModPack modPack) {
         super();
     }
 

@@ -20,11 +20,17 @@ import java.util.ArrayList;
 
 import javax.naming.NamingException;
 
+import mc.modpack.builder.terminal.column.*;
+import mc.modpack.builder.enums.ModLoader;
+
 import mc.modpack.builder.misc.Utils;
 
 public class ModPack {
     private String name;
     private ArrayList<PMod> modList; // mod list
+
+    private String mcVersion;
+    private ModLoader modLoader;
 
     public ModPack(String name, ArrayList<PMod> modList) throws NamingException {
         if (Utils.validString(name)) {
@@ -34,8 +40,8 @@ public class ModPack {
         this.modList = modList;
     }
 
-    public ModPack(String name) throws NamingException { 
-        this(name, new ArrayList<PMod>()); 
+    public ModPack(String name) throws NamingException {
+        this(name, new ArrayList<PMod>());
     }
 
     // GETTERS
@@ -59,6 +65,7 @@ public class ModPack {
             this.name = name;
         } else throw new NamingException();
     }
+
     public void setModArray(ArrayList<PMod> modList) { this.modList = modList; }
 
     // LOGIC BLOCK

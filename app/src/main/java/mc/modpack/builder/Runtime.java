@@ -25,11 +25,10 @@ import mc.modpack.builder.data.ModPack;
 import mc.modpack.builder.misc.APIKey;
 import mc.modpack.builder.data.RMod;
 import mc.modpack.builder.enums.ModLoader;
+import mc.modpack.builder.enums.Column;
 import mc.modpack.builder.network.ModVersions;
 import mc.modpack.builder.network.NetworkManager;
 import mc.modpack.builder.terminal.Table;
-import mc.modpack.builder.terminal.column.Column;
-import mc.modpack.builder.terminal.column.NameColumn;
 
 public class Runtime {
     public static void run() throws Exception {
@@ -46,13 +45,12 @@ public class Runtime {
         Mod m11 = new Mod("DecoCraft", "v0.59.213", "http", "http", 1, 1);
         Mod m12 = new Mod("Twilight Forest", "v0.59.213", "http", "http", 1, 1);
 
-        ModPack modpack = new ModPack();
-        Table table = new Table(modpack);
-
-        modpack.addModList(new ArrayList<Mod>(List.of(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)));
-
+        
         //Testing downloads
-       
+        Column c = Column.NAME;
+        
+        c.setValue(4);
+        System.out.println(c.getValue());
 
     }
 }

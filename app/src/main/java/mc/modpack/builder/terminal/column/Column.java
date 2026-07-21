@@ -5,6 +5,7 @@ import mc.modpack.builder.data.PMod;
 import mc.modpack.builder.data.ModPack;
 
 public class Column {
+    private ModPack modPack;
     private int maxChars = 0;
 
     public String getHeader() {
